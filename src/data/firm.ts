@@ -13,8 +13,8 @@ export const firm = {
     region: "BC",
     postal: "V6Z 2H2",
     country: "Canada",
-    lat: 49.27966,
-    lng: -123.12272,
+    lat: 49.27982,
+    lng: -123.12465,
   },
   hours: [
     { day: "Monday – Friday", hours: "9:00 AM – 5:00 PM" },
