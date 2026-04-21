@@ -51,12 +51,12 @@ export default function HomePage() {
               <span className="inline-block w-10 h-px bg-[color:var(--color-gold-500)] hero-rule" aria-hidden="true" />
               <span>Family law &amp; mediation — Vancouver, BC</span>
             </div>
-            <h1 className="font-display text-[clamp(2.75rem,7.5vw,6rem)] leading-[0.98] tracking-tight text-[color:var(--color-forest-900)]">
-              <span className="block hero-rise">Steady counsel during an</span>
-              <span className="block hero-rise delay-200 text-[color:var(--color-forest-700)] italic">
+            <h1 className="font-display text-[clamp(2.75rem,7.5vw,6rem)] leading-[0.98] tracking-tight text-[color:var(--color-forest-900)] hero-rise [text-wrap:balance]">
+              Steady counsel during an{" "}
+              <span className="italic text-[color:var(--color-forest-700)]">
                 important turning point
-              </span>
-              <span className="block hero-rise delay-300">in your family&rsquo;s life.</span>
+              </span>{" "}
+              in your family&rsquo;s life.
             </h1>
             <p className="mt-8 text-lg md:text-xl text-[color:var(--color-ink-700)] leading-relaxed max-w-2xl hero-rise-slow delay-500">
               A Vancouver family law firm built around clarity, care, and

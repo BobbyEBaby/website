@@ -4,6 +4,9 @@ const USERNAME = process.env.PREVIEW_USERNAME || "preview";
 const PASSWORD = process.env.PREVIEW_PASSWORD || "password";
 
 export function middleware(req: NextRequest) {
+  if (process.env.NODE_ENV !== "production") {
+    return NextResponse.next();
+  }
   const auth = req.headers.get("authorization");
   if (auth?.startsWith("Basic ")) {
     const [user, pass] = atob(auth.slice(6)).split(":");
