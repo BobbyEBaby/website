@@ -1,26 +1,241 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------ */
+/* Brand tokens — RWE Family Law                                      */
+/* Forest green + warm cream + gold, calibrated for family-law calm.  */
+/* ------------------------------------------------------------------ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Forest — from primary (used on dark surfaces) down to subtle tints. */
+  --color-forest-950: #0d1f18;
+  --color-forest-900: #122a20;
+  --color-forest-800: #1b3a2d;
+  --color-forest-700: #254d3c;
+  --color-forest-600: #2f624c;
+  --color-forest-500: #3c7a5e;
+  --color-forest-400: #6aa78b;
+  --color-forest-300: #a3cab7;
+  --color-forest-200: #d1e4d9;
+  --color-forest-100: #e8f0eb;
+  --color-forest-50:  #f3f7f4;
+
+  /* Warm cream — page background and calm negative space. */
+  --color-cream-50:  #fbf8f1;
+  --color-cream-100: #f5efdf;
+  --color-cream-200: #ece2c6;
+
+  /* Gold — reserved for accents (underlines, small marks). */
+  --color-gold-600: #a9822b;
+  --color-gold-500: #c89c3a;
+  --color-gold-400: #d9b45c;
+  --color-gold-300: #e6cb8a;
+
+  /* Ink — text colors. Use ink-900 for body, never pure black. */
+  --color-ink-900: #1a1a17;
+  --color-ink-700: #3f3e39;
+  --color-ink-500: #6b6a62;
+  --color-ink-300: #a8a69c;
+
+  --background: var(--color-cream-50);
+  --foreground: var(--color-ink-900);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-forest-50:  var(--color-forest-50);
+  --color-forest-100: var(--color-forest-100);
+  --color-forest-200: var(--color-forest-200);
+  --color-forest-300: var(--color-forest-300);
+  --color-forest-400: var(--color-forest-400);
+  --color-forest-500: var(--color-forest-500);
+  --color-forest-600: var(--color-forest-600);
+  --color-forest-700: var(--color-forest-700);
+  --color-forest-800: var(--color-forest-800);
+  --color-forest-900: var(--color-forest-900);
+  --color-forest-950: var(--color-forest-950);
+
+  --color-cream-50:  var(--color-cream-50);
+  --color-cream-100: var(--color-cream-100);
+  --color-cream-200: var(--color-cream-200);
+
+  --color-gold-300: var(--color-gold-300);
+  --color-gold-400: var(--color-gold-400);
+  --color-gold-500: var(--color-gold-500);
+  --color-gold-600: var(--color-gold-600);
+
+  --color-ink-300: var(--color-ink-300);
+  --color-ink-500: var(--color-ink-500);
+  --color-ink-700: var(--color-ink-700);
+  --color-ink-900: var(--color-ink-900);
+
+  --font-serif: var(--font-cormorant);
+  --font-sans:  var(--font-inter);
+
+  --default-font-family: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Serif display — oversized headlines, restrained. */
+.font-display {
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Gold underline accent for headings and links. */
+.gold-rule {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--color-gold-500);
+  border-radius: 1px;
+}
+
+/* ---- Hero / kinetic reveal -------------------------------------- */
+
+@keyframes rwe-rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rwe-rise-slow {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rwe-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes rwe-stretch {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes rwe-drift {
+  0%   { transform: translate3d(0,0,0); }
+  50%  { transform: translate3d(0,-8px,0); }
+  100% { transform: translate3d(0,0,0); }
+}
+
+.hero-rise {
+  animation: rwe-rise 900ms cubic-bezier(.2,.65,.2,1) both;
+}
+.hero-rise-slow {
+  animation: rwe-rise-slow 1200ms cubic-bezier(.2,.65,.2,1) both;
+}
+.hero-fade {
+  animation: rwe-fade 1400ms ease both;
+}
+.hero-rule {
+  transform-origin: left center;
+  animation: rwe-stretch 1400ms 400ms cubic-bezier(.2,.65,.2,1) both;
+}
+.hero-drift {
+  animation: rwe-drift 9s ease-in-out infinite;
+}
+
+/* Stagger helpers — use inline styles for custom delays. */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-700 { animation-delay: 700ms; }
+
+/* Textured section dividers — subtle topographical hairlines. */
+.divider-topo {
+  position: relative;
+  height: 40px;
+  overflow: hidden;
+  background-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 48%,
+      color-mix(in srgb, var(--color-forest-300) 45%, transparent) 49%,
+      color-mix(in srgb, var(--color-forest-300) 45%, transparent) 51%,
+      transparent 52%,
+      transparent 100%
+    );
+}
+.divider-topo::before,
+.divider-topo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-forest-300) 30%, transparent);
+}
+.divider-topo::before { top: 30%; }
+.divider-topo::after  { bottom: 30%; }
+
+/* Grain — a very subtle paper texture on cream backgrounds. */
+.bg-grain {
+  position: relative;
+}
+.bg-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image:
+    radial-gradient(circle at 1px 1px, #000 1px, transparent 0);
+  background-size: 3px 3px;
+}
+
+/* Card lift + gold underline for interactive cards. */
+.card-lift {
+  transition: transform 380ms cubic-bezier(.2,.7,.2,1),
+              box-shadow 380ms cubic-bezier(.2,.7,.2,1),
+              border-color 380ms ease;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -24px rgba(18,42,32,.25);
+}
+.card-lift .card-underline {
+  display: block;
+  height: 2px;
+  width: 0;
+  background: var(--color-gold-500);
+  transition: width 420ms cubic-bezier(.2,.7,.2,1);
+}
+.card-lift:hover .card-underline {
+  width: 2.5rem;
+}
+
+/* Focus ring for accessibility. */
+*:focus-visible {
+  outline: 2px solid var(--color-forest-600);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Respect reduced motion — restrained is the 2026 ethos anyway. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-rise, .hero-rise-slow, .hero-fade, .hero-rule, .hero-drift,
+  .card-lift:hover { transform: none !important; }
 }

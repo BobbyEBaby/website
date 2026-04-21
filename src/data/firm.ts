@@ -1,0 +1,33 @@
+export const firm = {
+  name: "RWE Family Law",
+  legalName: "RWE Law Corporation",
+  shortName: "RWE",
+  domain: "rwelaw.ca",
+  phone: "+17786547554",
+  phoneDisplay: "(778) 654-7554",
+  fax: "(778) 654-7512",
+  email: "info@rwelaw.ca",
+  address: {
+    line1: "1700-808 Nelson Street",
+    city: "Vancouver",
+    region: "BC",
+    postal: "V6Z 2H2",
+    country: "Canada",
+    lat: 49.27966,
+    lng: -123.12272,
+  },
+  hours: [
+    { day: "Monday – Friday", hours: "9:00 AM – 5:00 PM" },
+    { day: "Saturday", hours: "By appointment" },
+    { day: "Sunday", hours: "By appointment" },
+  ],
+  social: {
+    facebook: "",
+    linkedin: "https://www.linkedin.com/company/rwe-family-law",
+    instagram: "",
+    youtube: "",
+    twitter: "",
+    wechat: "",
+  },
+  timezone: "America/Vancouver",
+} as const;

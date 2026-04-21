@@ -1,0 +1,136 @@
+// RWE Family Law — booking + scheduling schema.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------
+// Lawyer — the database-backed mirror of src/data/lawyers.ts.
+// ---------------------------------------------------------------
+model Lawyer {
+  id                     String    @id @default(cuid())
+  slug                   String    @unique
+  name                   String
+  title                  String
+  email                  String    @unique
+  phoneE164              String?
+  consultationRateCents  Int       @default(25000) // $250.00 CAD default
+  consultationMinutes    Int       @default(45)
+  mediationRateCents     Int?
+  mediationMinutes       Int?      @default(90)
+  isMediator             Boolean   @default(false)
+  active                 Boolean   @default(true)
+  bufferMinutes          Int       @default(15)
+  minNoticeHours         Int       @default(24)
+  maxLeadDays            Int       @default(60)
+  timezone               String    @default("America/Vancouver")
+
+  availabilityRules      AvailabilityRule[]
+  availabilityExceptions AvailabilityException[]
+  bookings               Booking[]
+
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+}
+
+// ---------------------------------------------------------------
+// AvailabilityRule — recurring weekly availability windows.
+// e.g. Monday 09:00–12:00 and 13:00–17:00.
+// Times are stored as minutes-since-midnight in the lawyer's timezone.
+// ---------------------------------------------------------------
+model AvailabilityRule {
+  id         String   @id @default(cuid())
+  lawyerId   String
+  lawyer     Lawyer   @relation(fields: [lawyerId], references: [id], onDelete: Cascade)
+  dayOfWeek  Int      // 0 = Sunday ... 6 = Saturday
+  startMin   Int      // minutes since midnight, 0-1439
+  endMin     Int
+  createdAt  DateTime @default(now())
+
+  @@index([lawyerId, dayOfWeek])
+}
+
+// ---------------------------------------------------------------
+// AvailabilityException — one-off blocks (vacation, holidays) or
+// one-off extra slots outside the normal rule set.
+// ---------------------------------------------------------------
+model AvailabilityException {
+  id         String   @id @default(cuid())
+  lawyerId   String
+  lawyer     Lawyer   @relation(fields: [lawyerId], references: [id], onDelete: Cascade)
+  start      DateTime // inclusive
+  end        DateTime // exclusive
+  kind       ExceptionKind
+  note       String?
+  createdAt  DateTime @default(now())
+
+  @@index([lawyerId, start])
+}
+
+enum ExceptionKind {
+  BLOCK   // lawyer is unavailable during this window
+  EXTRA   // lawyer is available during this window even if outside rules
+}
+
+// ---------------------------------------------------------------
+// Booking — a specific time slot requested by a client.
+// ---------------------------------------------------------------
+model Booking {
+  id             String         @id @default(cuid())
+
+  lawyerId       String
+  lawyer         Lawyer         @relation(fields: [lawyerId], references: [id])
+
+  service        ServiceType
+  start          DateTime
+  end            DateTime
+
+  clientName     String
+  clientEmail    String
+  clientPhoneE164 String
+  clientSummary  String?        @db.Text
+  urgency        Urgency        @default(NORMAL)
+
+  priceCents     Int
+  currency       String         @default("CAD")
+
+  status         BookingStatus  @default(PENDING_PAYMENT)
+  cancelReason   String?
+
+  stripeCheckoutSessionId String?  @unique
+  stripePaymentIntentId   String?  @unique
+
+  confirmationToken String   @unique @default(cuid())
+
+  clientReminderSentAt DateTime?
+  lawyerNotifiedAt     DateTime?
+
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@index([lawyerId, start])
+  @@index([status])
+}
+
+enum ServiceType {
+  CONSULTATION
+  MEDIATION
+}
+
+enum Urgency {
+  NORMAL
+  URGENT  // court deadline, protection order, MCFD matter, etc.
+}
+
+enum BookingStatus {
+  PENDING_PAYMENT   // created but Stripe hasn't confirmed
+  CONFIRMED         // paid, on the calendar
+  CANCELLED         // cancelled by client or firm
+  COMPLETED         // consultation has happened
+  REFUNDED
+}
