@@ -105,7 +105,7 @@ export default function HomePage() {
             </div>
           </Reveal>
 
-          <div className="mt-14 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14 grid grid-cols-2 gap-5 sm:gap-7 lg:grid-cols-4">
             {lawyers.map((lawyer, idx) => (
               <Reveal key={lawyer.slug} delay={idx * 90}>
                 <Link

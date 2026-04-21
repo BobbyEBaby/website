@@ -19,7 +19,7 @@ export default function LawyersIndexPage() {
         lead="Every lawyer on our team practises exclusively in family law. Choose the person whose experience and approach fits your matter — or let us match you after a brief intake."
       />
 
-      <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-14 grid grid-cols-2 gap-5 sm:gap-8 lg:grid-cols-3">
         {lawyers.map((lawyer, idx) => (
           <Link
             key={lawyer.slug}
