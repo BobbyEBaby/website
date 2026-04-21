@@ -63,13 +63,13 @@ export default function ContactPage() {
               {firm.address.city}, {firm.address.region} {firm.address.postal}
             </address>
             <a
-              href={`https://www.google.com/search?q=${encodeURIComponent(
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                 "RWE Family Law"
               )}`}
               target="_blank"
               rel="noreferrer noopener"
               className="mt-4 block overflow-hidden rounded-xl border border-[color:var(--color-forest-100)] group"
-              aria-label="Search RWE Family Law on Google"
+              aria-label="Find RWE Family Law on Google Maps"
             >
               <iframe
                 title="RWE Family Law office location"
@@ -86,7 +86,7 @@ export default function ContactPage() {
               />
             </a>
             <div className="mt-2 text-xs text-[color:var(--color-ink-500)]">
-              Click map to find RWE Family Law on Google.
+              Click map to find RWE Family Law on Google Maps.
             </div>
           </ContactBlock>
         </div>
