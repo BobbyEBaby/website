@@ -40,17 +40,6 @@ export default function ContactPage() {
             </a>
           </ContactBlock>
 
-          <ContactBlock label="Hours">
-            <ul className="space-y-1 text-[color:var(--color-ink-900)]">
-              {firm.hours.map((h) => (
-                <li key={h.day} className="flex justify-between max-w-xs">
-                  <span className="text-[color:var(--color-ink-700)]">{h.day}</span>
-                  <span>{h.hours}</span>
-                </li>
-              ))}
-            </ul>
-          </ContactBlock>
-
           <ContactBlock label="Office">
             <address className="not-italic text-[color:var(--color-ink-900)] leading-relaxed">
               {firm.name}
@@ -85,6 +74,17 @@ export default function ContactPage() {
             <div className="mt-2 text-xs text-[color:var(--color-ink-500)]">
               Click map to find RWE Family Law on Google Maps.
             </div>
+          </ContactBlock>
+
+          <ContactBlock label="Hours">
+            <ul className="space-y-1 text-[color:var(--color-ink-900)]">
+              {firm.hours.map((h) => (
+                <li key={h.day} className="flex justify-between max-w-xs">
+                  <span className="text-[color:var(--color-ink-700)]">{h.day}</span>
+                  <span>{h.hours}</span>
+                </li>
+              ))}
+            </ul>
           </ContactBlock>
         </div>
 
