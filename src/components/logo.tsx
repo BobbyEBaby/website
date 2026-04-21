@@ -24,8 +24,8 @@ export function Logo({ className = "", variant = "dark", showWordmark = true }: 
   return (
     <span className={`inline-flex items-center gap-3 ${className}`}>
       <svg
-        width="42"
-        height="42"
+        width="46"
+        height="46"
         viewBox="0 0 48 48"
         role="img"
         aria-hidden="true"
@@ -44,27 +44,32 @@ export function Logo({ className = "", variant = "dark", showWordmark = true }: 
           stroke={shieldStroke}
           strokeWidth="0.75"
         />
-        {/* Gold hairline rule */}
-        <rect
-          x="14"
-          y="29"
-          width="20"
-          height="1.2"
-          rx="0.6"
-          fill="var(--color-gold-500)"
-        />
         {/* RWE lettering */}
         <text
           x="24"
-          y="25"
+          y="23"
           textAnchor="middle"
           fontFamily="var(--font-cormorant), 'Cormorant Garamond', Georgia, serif"
-          fontSize="14"
+          fontSize="13"
           fontWeight="500"
           fill={rweColor}
           letterSpacing="0.6"
         >
           RWE
+        </text>
+        {/* Family Law */}
+        <text
+          x="24"
+          y="32.4"
+          textAnchor="middle"
+          fontFamily="var(--font-cormorant), 'Cormorant Garamond', Georgia, serif"
+          fontStyle="italic"
+          fontSize="5.5"
+          fontWeight="500"
+          fill="var(--color-gold-500)"
+          letterSpacing="0.1"
+        >
+          Family Law
         </text>
       </svg>
       {showWordmark && (
