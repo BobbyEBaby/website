@@ -29,9 +29,6 @@ export default function ContactPage() {
             >
               {firm.phoneDisplay}
             </a>
-            <div className="mt-2 text-xl text-[color:var(--color-ink-500)]">
-              Fax {firm.fax}
-            </div>
           </ContactBlock>
 
           <ContactBlock label="By email">
