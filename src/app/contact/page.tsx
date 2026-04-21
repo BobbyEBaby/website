@@ -25,7 +25,7 @@ export default function ContactPage() {
           <ContactBlock label="By phone">
             <a
               href={`tel:${firm.phone}`}
-              className="font-display text-3xl text-[color:var(--color-forest-900)] hover:text-[color:var(--color-forest-700)]"
+              className="text-3xl text-[color:var(--color-ink-500)] hover:text-[color:var(--color-forest-700)]"
             >
               {firm.phoneDisplay}
             </a>
