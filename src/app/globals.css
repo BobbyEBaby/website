@@ -184,19 +184,12 @@ body {
 .divider-topo::before { top: 30%; }
 .divider-topo::after  { bottom: 30%; }
 
-/* Grain — a very subtle paper texture on cream backgrounds. */
+/* Grain — a very subtle paper texture on cream backgrounds.
+   Painted as a background-image on the element itself so children
+   (portraits, cards) always stack above it. */
 .bg-grain {
-  position: relative;
-}
-.bg-grain::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: multiply;
   background-image:
-    radial-gradient(circle at 1px 1px, #000 1px, transparent 0);
+    radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.05) 1px, transparent 0);
   background-size: 3px 3px;
 }
 
