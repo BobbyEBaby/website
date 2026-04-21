@@ -25,11 +25,11 @@ export default function ContactPage() {
           <ContactBlock label="By phone">
             <a
               href={`tel:${firm.phone}`}
-              className="text-3xl text-[color:var(--color-ink-500)] hover:text-[color:var(--color-forest-700)]"
+              className="text-xl text-[color:var(--color-ink-500)] hover:text-[color:var(--color-forest-700)]"
             >
               {firm.phoneDisplay}
             </a>
-            <div className="mt-2 text-sm text-[color:var(--color-ink-500)]">
+            <div className="mt-2 text-xl text-[color:var(--color-ink-500)]">
               Fax {firm.fax}
             </div>
           </ContactBlock>
