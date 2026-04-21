@@ -154,9 +154,6 @@ export default async function LawyerProfilePage({ params }: PageProps) {
               Book with {lawyer.name.split(" ")[0]}
               <span aria-hidden="true" className="text-[color:var(--color-gold-400)]">→</span>
             </ButtonLink>
-            <ButtonLink href="/contact" variant="ghost" size="lg">
-              Ask a question first
-            </ButtonLink>
           </div>
         </div>
       </div>
