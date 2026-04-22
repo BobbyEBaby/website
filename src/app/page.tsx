@@ -86,7 +86,7 @@ export default function HomePage() {
       <div className="divider-topo" aria-hidden="true" />
 
       {/* Lawyer preview */}
-      <section className="py-24 md:py-32 bg-[color:var(--color-forest-50)] bg-grain relative overflow-hidden">
+      <section className="py-24 md:py-32 bg-[color:var(--color-forest-50)] relative overflow-hidden">
         <Container>
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -139,7 +139,7 @@ export default function HomePage() {
       </section>
 
       {/* Practice areas */}
-      <section className="py-24 md:py-32">
+      <section className="py-24 md:py-32 bg-grain">
         <Container>
           <Reveal>
             <SectionHeading
