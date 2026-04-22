@@ -44,19 +44,18 @@ export function Logo({ className = "", variant = "dark", showWordmark = true }: 
           stroke={shieldStroke}
           strokeWidth="0.75"
         />
-        {/* RWE lettering */}
-        <text
-          x="24"
-          y="23"
-          textAnchor="middle"
+        {/* RWE lettering — each letter placed individually so optical
+            spacing on either side of the wide W stays balanced. */}
+        <g
           fontFamily="var(--font-cormorant), 'Cormorant Garamond', Georgia, serif"
           fontSize="13"
           fontWeight="500"
           fill={rweColor}
-          letterSpacing="0.6"
         >
-          RWE
-        </text>
+          <text x="15.5" y="23" textAnchor="middle">R</text>
+          <text x="24" y="23" textAnchor="middle">W</text>
+          <text x="32.5" y="23" textAnchor="middle">E</text>
+        </g>
         {/* Family Law */}
         <text
           x="24"
