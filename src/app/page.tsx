@@ -184,7 +184,7 @@ export default function HomePage() {
       <div className="divider-topo" aria-hidden="true" />
 
       {/* How it works */}
-      <section className="py-24 md:py-32">
+      <section className="py-24 md:py-32 bg-[color:var(--color-forest-50)]">
         <Container>
           <Reveal>
             <SectionHeading
