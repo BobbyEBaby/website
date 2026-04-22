@@ -33,7 +33,8 @@ export default function LawyersIndexPage() {
                 {lawyer.honorific ? `, ${lawyer.honorific}` : ""}
               </div>
               <div className="text-sm text-[color:var(--color-ink-500)] mb-2">
-                {lawyer.title}
+                {lawyer.slug === "bionca-chu" ? "Articling Student" : "Lawyer"}
+                {lawyer.isMediator && " · Mediator"}
               </div>
               <p className="text-sm text-[color:var(--color-ink-700)] leading-relaxed">
                 {lawyer.shortBio}

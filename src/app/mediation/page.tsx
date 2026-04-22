@@ -186,7 +186,7 @@ export default function MediationPage() {
                     {lawyer.honorific ? `, ${lawyer.honorific}` : ""}
                   </div>
                   <div className="text-sm text-[color:var(--color-cream-100)]/60 mb-5">
-                    {lawyer.title} · Mediator
+                    {lawyer.slug === "bionca-chu" ? "Articling Student" : "Lawyer"} · Mediator
                   </div>
                   <p className="text-[color:var(--color-cream-100)]/85 leading-relaxed">
                     {lawyer.mediationBlurb}

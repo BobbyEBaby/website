@@ -121,7 +121,7 @@ export default function HomePage() {
                       {lawyer.honorific ? `, ${lawyer.honorific}` : ""}
                     </div>
                     <div className="text-sm text-[color:var(--color-ink-500)]">
-                      {lawyer.title}
+                      {lawyer.slug === "bionca-chu" ? "Articling Student" : "Lawyer"}
                       {lawyer.isMediator && (
                         <span className="ml-2 text-[color:var(--color-gold-600)]">· Mediator</span>
                       )}
