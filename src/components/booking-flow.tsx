@@ -168,7 +168,7 @@ function LawyerPicker({
                   alt=""
                   fill
                   sizes="64px"
-                  className="object-cover"
+                  className="object-cover object-top"
                 />
               ) : (
                 <span className="font-display text-white text-xl">
