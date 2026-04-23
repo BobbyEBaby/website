@@ -24,10 +24,10 @@ export const firm = {
   social: {
     facebook: "",
     linkedin: "https://www.linkedin.com/company/rwe-family-law",
-    instagram: "",
+    instagram: "https://www.instagram.com/rwe_law/",
     youtube: "",
-    twitter: "",
-    wechat: "",
+    twitter: "https://twitter.com/rwelaw",
+    wechat: "https://rwelaw.ca/wp-content/themes/rwe-law/assets/img/rwe_law_wechat.jpg",
   },
   timezone: "America/Vancouver",
 } as const;
