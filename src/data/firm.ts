@@ -27,7 +27,7 @@ export const firm = {
     instagram: "https://www.instagram.com/rwe_law/",
     youtube: "",
     twitter: "https://twitter.com/rwelaw",
-    wechat: "https://rwelaw.ca/wp-content/themes/rwe-law/assets/img/rwe_law_wechat.jpg",
+    wechat: "/wechat-qr.jpg",
   },
   timezone: "America/Vancouver",
 } as const;
