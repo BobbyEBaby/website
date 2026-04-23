@@ -132,6 +132,7 @@ export const lawyers: Lawyer[] = [
     photoSecondary: "/lawyers/acosta-desiree-2.jpg",
     consultationRateCad: 225,
     consultationMinutes: 30,
+    calendlyUrl: "https://calendly.com/acosta-rwelaw",
     displayOrder: 4,
     isMediator: true,
     mediatorCredential:
@@ -163,6 +164,7 @@ export const lawyers: Lawyer[] = [
     photoSecondary: "/lawyers/grewal-dilveen-2.jpg",
     consultationRateCad: 150,
     consultationMinutes: 30,
+    calendlyUrl: "https://calendly.com/grewal-rwelaw",
     displayOrder: 5,
   },
   {
@@ -216,6 +218,7 @@ export const lawyers: Lawyer[] = [
     photoSecondary: "/lawyers/valeska-tiffany-2.jpg",
     consultationRateCad: 175,
     consultationMinutes: 30,
+    calendlyUrl: "https://calendly.com/valeska-rwelaw",
     displayOrder: 7,
   },
   {
@@ -240,6 +243,7 @@ export const lawyers: Lawyer[] = [
     photoSecondary: "/lawyers/claire-sahaj-2.jpg",
     consultationRateCad: 150,
     consultationMinutes: 30,
+    calendlyUrl: "https://calendly.com/claire-rwelaw",
     displayOrder: 8,
   },
   {
