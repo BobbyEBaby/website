@@ -270,6 +270,7 @@ export const lawyers: Lawyer[] = [
     photoSecondary: "/lawyers/cheema-amandeep-2.jpg",
     consultationRateCad: 150,
     consultationMinutes: 30,
+    calendlyUrl: "https://calendly.com/cheema-rwelaw",
     displayOrder: 9,
   },
   {
