@@ -84,16 +84,28 @@ export async function POST(req: Request) {
     `Message:\n${message}\n`;
 
   try {
-    await resend.emails.send({
+    // The Resend SDK returns { data, error } and does NOT throw on API
+    // validation failures (e.g. unverified-domain restrictions, malformed
+    // sender, rate limit). Always check result.error explicitly — silently
+    // returning ok on a rejected send is what burned us during the initial
+    // production wiring.
+    const result = await resend.emails.send({
       from: resendFrom,
       to: firm.email,
       replyTo: email,
       subject: emailSubject,
       text: emailBody,
     });
+    if (result.error) {
+      console.error("[contact] Resend returned error", result.error);
+      return NextResponse.json(
+        { error: "Something went wrong sending your message. Please try again or call us." },
+        { status: 500 }
+      );
+    }
     return NextResponse.json({ ok: true });
   } catch (e) {
-    console.error("[contact] Resend send failed", e);
+    console.error("[contact] Resend send threw", e);
     return NextResponse.json(
       { error: "Something went wrong sending your message. Please try again or call us." },
       { status: 500 }

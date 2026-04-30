@@ -82,7 +82,9 @@ export async function POST(req: Request) {
   }
 
   try {
-    await resend.emails.send({
+    // SDK returns { data, error } and does NOT throw on API validation
+    // failures. Check explicitly so we don't silently lose conflict alerts.
+    const result = await resend.emails.send({
       from: resendFrom,
       to: firm.email,
       subject: `[Booking] ⚠️ POSSIBLE CONFLICT — ${clientName} vs. ${opposingName}`,
@@ -98,12 +100,18 @@ export async function POST(req: Request) {
         `Per firm policy, conflicted bookings are cancelled manually after they're made.\n` +
         `Watch for the matching Calendly notification email and cancel from there.\n`,
     });
+    if (result.error) {
+      // Log loudly but still 200 — don't block the booking just because the
+      // alert email failed. The user will continue to Calendly and the firm
+      // will see the booking via the normal Calendly notification.
+      console.error(
+        "[booking-screen] conflict alert email failed (Resend returned error)",
+        result.error
+      );
+    }
     return NextResponse.json({ ok: true });
   } catch (e) {
-    // Don't block the booking just because the alert email failed — log and
-    // continue. The booking will still go through Calendly; the firm will
-    // see it via the normal Calendly notification.
-    console.error("[booking-screen] conflict alert email failed", e);
+    console.error("[booking-screen] conflict alert email threw", e);
     return NextResponse.json({ ok: true });
   }
 }
