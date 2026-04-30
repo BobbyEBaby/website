@@ -12,15 +12,16 @@ import { stripe, isStripeConfigured } from "@/lib/stripe";
 
 export const dynamic = "force-dynamic";
 
-// Min $5 keeps tinkerers from running the firm's processor for fun. Max
-// $50,000 catches finger-trips on the keyboard — a real five-figure invoice
-// is unusual but not impossible, so we allow it. Above that, we'd rather
-// the client call the office anyway.
+// No firm-imposed minimum — Stripe enforces its own CAD floor (~$0.50)
+// and will reject anything lower with a real error. Max $50,000 catches
+// finger-trips on the keyboard — a real five-figure invoice is unusual
+// but not impossible, so we allow it. Above that, we'd rather the client
+// call the office anyway.
 const PaySchema = z.object({
   clientName: z.string().min(2).max(120),
   clientEmail: z.string().email().max(200),
   invoiceNumber: z.string().max(80).optional().or(z.literal("")),
-  amountCad: z.number().min(5).max(50000),
+  amountCad: z.number().positive().max(50000),
   note: z.string().max(500).optional().or(z.literal("")),
   website: z.string().optional(), // honeypot
 });
