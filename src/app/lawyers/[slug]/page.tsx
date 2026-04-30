@@ -151,7 +151,7 @@ export default async function LawyerProfilePage({ params }: PageProps) {
 
           <div className="mt-10 flex flex-wrap gap-3">
             <ButtonLink href={`/book?lawyer=${lawyer.slug}`} size="lg">
-              Book with {lawyer.name.split(" ")[0]}
+              Book with {lawyer.bookingDisplayName ?? lawyer.name.split(" ")[0]}
               <span aria-hidden="true" className="text-[color:var(--color-gold-400)]">→</span>
             </ButtonLink>
           </div>

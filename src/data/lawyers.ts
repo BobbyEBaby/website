@@ -27,6 +27,13 @@ export type Lawyer = {
    * a placeholder card is shown.
    */
   calendlyUrl?: string;
+  /**
+   * Override for the "Book with X" CTA label. Defaults to the lawyer's first
+   * name (split on space). Set this when a lawyer prefers to be addressed by
+   * something other than the first token of their `name` — e.g. a last name
+   * or a nickname.
+   */
+  bookingDisplayName?: string;
 };
 
 export const lawyers: Lawyer[] = [
@@ -219,6 +226,7 @@ export const lawyers: Lawyer[] = [
     consultationRateCad: 175,
     consultationMinutes: 30,
     calendlyUrl: "https://calendly.com/valeska-rwelaw",
+    bookingDisplayName: "Valeska",
     displayOrder: 7,
   },
   {

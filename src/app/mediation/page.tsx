@@ -203,7 +203,7 @@ export default function MediationPage() {
                       href={`/book?lawyer=${lawyer.slug}&service=mediation`}
                       className="inline-flex items-center gap-2 text-sm font-medium text-[color:var(--color-gold-400)] hover:text-[color:var(--color-gold-300)]"
                     >
-                      Book with {lawyer.name.split(" ")[0]}
+                      Book with {lawyer.bookingDisplayName ?? lawyer.name.split(" ")[0]}
                       <span aria-hidden="true">→</span>
                     </Link>
                   </div>
