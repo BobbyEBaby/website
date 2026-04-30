@@ -51,7 +51,7 @@ export default function IntakePage() {
                 any of our lawyers. If a possible conflict comes up,
                 we&rsquo;ll let you know we can&rsquo;t take the file and
                 delete the information from our system before any of our
-                lawyers have had access to it.
+                lawyers have reviewed the information.
               </li>
               <li>
                 <span className="font-medium text-[color:var(--color-forest-900)]">
