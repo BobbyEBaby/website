@@ -21,7 +21,7 @@ export function SiteHeader() {
         >
           <PrimaryLink href="/lawyers">Lawyer Profiles</PrimaryLink>
           <div className="relative group">
-            <PrimaryLink href="/practice-areas">Family Law</PrimaryLink>
+            <PrimaryLink href="/practice-areas">Family Law Practice Areas</PrimaryLink>
             <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity duration-150 absolute left-1/2 -translate-x-1/2 top-full pt-3">
               <ul className="min-w-[17rem] rounded-lg border border-[color:var(--color-forest-100)] bg-[color:var(--color-cream-50)] shadow-[0_18px_50px_-18px_rgba(18,42,32,0.35)] py-2">
                 {practiceAreas.map((p) => (

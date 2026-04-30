@@ -113,7 +113,7 @@ export function MobileNav() {
                   href="/practice-areas"
                   className="font-display text-2xl text-[color:var(--color-forest-900)] hover:text-[color:var(--color-forest-700)]"
                 >
-                  Family Law
+                  Family Law Practice Areas
                 </Link>
                 <ul className="mt-3 pl-1 space-y-1">
                   {practiceAreas.map((p) => (
