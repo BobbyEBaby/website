@@ -272,8 +272,8 @@ export async function notifyRetainerPayment(
       : session.payment_intent?.id ?? "(none)";
 
   const subject = matterReference
-    ? `[Retainer] ${fmt(grossCents)} from ${clientName} — ${matterReference}`
-    : `[Retainer] ${fmt(grossCents)} from ${clientName}`;
+    ? `[Trust] ${fmt(grossCents)} from ${clientName} — ${matterReference}`
+    : `[Trust] ${fmt(grossCents)} from ${clientName}`;
 
   const body =
     `Retainer deposit received via the website (TRUST account).\n\n` +
