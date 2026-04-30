@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img">
+  <title>RWE Family Law</title>
+  <defs>
+    <linearGradient id="rwe-shield" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1b3a2d" />
+      <stop offset="100%" stop-color="#0d1f18" />
+    </linearGradient>
+  </defs>
+  <!-- Shield -->
+  <path
+    d="M24 3 L44 10 V24 C44 35 35 42 24 45 C13 42 4 35 4 24 V10 Z"
+    fill="url(#rwe-shield)"
+    stroke="#254d3c"
+    stroke-width="0.75"
+  />
+  <!-- RWE lettering, larger than in the full logo since we drop the subtitle -->
+  <g
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="18"
+    font-weight="500"
+    fill="#fbf8f1"
+  >
+    <text x="14" y="29" text-anchor="middle">R</text>
+    <text x="24" y="29" text-anchor="middle">W</text>
+    <text x="34" y="29" text-anchor="middle">E</text>
+  </g>
+  <!-- Gold hairline accent under the letters -->
+  <line x1="14" y1="33" x2="34" y2="33" stroke="#c89c3a" stroke-width="0.7" />
+</svg>
