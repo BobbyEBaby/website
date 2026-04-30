@@ -227,7 +227,7 @@ export function IntakeForm({
             name="assets"
             rows={5}
             wide
-            placeholder={"One per line — what it is, who&rsquo;s on title, rough value\ne.g. House on Kingsway (joint, ~$1.4M)\n      RRSP (mine, ~$120k)"}
+            placeholder={"One per line — what it is, who's on title, rough value\ne.g. House on Kingsway (joint, ~$1.4M)\n      RRSP (mine, ~$120k)"}
           />
           <TextArea
             label="List of debts"
