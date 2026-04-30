@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
-import { notifyBookingConfirmed } from "@/lib/notifications";
+import {
+  notifyBookingConfirmed,
+  notifyInvoicePayment,
+} from "@/lib/notifications";
 import type Stripe from "stripe";
 
 export const dynamic = "force-dynamic";
@@ -34,6 +37,21 @@ export async function POST(req: Request) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
+
+    // Invoice-payment branch (from /pay flow). No DB record — Stripe is the
+    // system of record; we only email the firm so they know to reconcile.
+    if (session.metadata?.kind === "invoice") {
+      try {
+        await notifyInvoicePayment(session);
+      } catch (err) {
+        console.error("[stripe webhook] notifyInvoicePayment failed", err);
+      }
+      return NextResponse.json({ received: true });
+    }
+
+    // Booking-payment branch (legacy native booking flow — currently unused
+    // because production hands off to Calendly, but kept wired in case we
+    // bring it back).
     const bookingId = session.metadata?.bookingId;
     if (bookingId) {
       const booking = await prisma.booking.findUnique({

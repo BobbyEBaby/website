@@ -2,6 +2,8 @@ import { Resend } from "resend";
 import twilio from "twilio";
 import { createEvent } from "ics";
 import type { Booking, Lawyer } from "@prisma/client";
+import type Stripe from "stripe";
+import { firm } from "@/data/firm";
 
 const resendKey = process.env.RESEND_API_KEY;
 const resendFrom = process.env.RESEND_FROM_EMAIL ?? "bookings@rwelaw.ca";
@@ -167,4 +169,58 @@ export async function notifyBookingConfirmed(
       "[notifications] Twilio not configured or lawyer has no phone — skipping SMS"
     );
   }
+}
+
+/**
+ * Notify the firm that an invoice payment cleared. Stripe sends the client
+ * their own receipt automatically (because we set customer_email on the
+ * Checkout Session) — this is purely the firm-side alert.
+ */
+export async function notifyInvoicePayment(
+  session: Stripe.Checkout.Session
+): Promise<void> {
+  if (!resend) {
+    console.log(
+      "[notifications] Resend not configured — invoice payment notification skipped",
+      session.id
+    );
+    return;
+  }
+
+  const clientName = session.metadata?.clientName ?? "(unknown)";
+  const clientEmail =
+    session.customer_email ?? session.metadata?.clientEmail ?? "(unknown)";
+  const invoiceNumber = session.metadata?.invoiceNumber ?? "";
+  const note = session.metadata?.note ?? "";
+  const amountCents = session.amount_total ?? 0;
+  const currency = (session.currency ?? "cad").toUpperCase();
+  const amountStr = `$${(amountCents / 100).toFixed(2)} ${currency}`;
+  const paymentIntent =
+    typeof session.payment_intent === "string"
+      ? session.payment_intent
+      : session.payment_intent?.id ?? "(none)";
+
+  const subject = invoiceNumber
+    ? `[Payment] $${(amountCents / 100).toFixed(2)} from ${clientName} — invoice ${invoiceNumber}`
+    : `[Payment] $${(amountCents / 100).toFixed(2)} from ${clientName}`;
+
+  const body =
+    `Invoice payment received via the website.\n\n` +
+    `Amount:          ${amountStr}\n` +
+    `Client:          ${clientName}\n` +
+    `Email:           ${clientEmail}\n` +
+    `Invoice number:  ${invoiceNumber || "(not provided)"}\n` +
+    `Note from payer: ${note || "(none)"}\n\n` +
+    `Stripe references:\n` +
+    `  Checkout session:  ${session.id}\n` +
+    `  Payment intent:    ${paymentIntent}\n\n` +
+    `The client has been emailed a Stripe receipt automatically.\n` +
+    `Reconcile this against the matching file.\n`;
+
+  await resend.emails.send({
+    from: resendFrom,
+    to: firm.email,
+    subject,
+    text: body,
+  });
 }

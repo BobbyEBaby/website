@@ -6,7 +6,7 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
   return (
     <footer className="mt-24 border-t border-[color:var(--color-forest-100)] bg-[color:var(--color-forest-900)] text-[color:var(--color-cream-100)]">
-      <div className="mx-auto max-w-6xl px-5 md:px-8 py-14 md:py-20 grid gap-10 md:grid-cols-4">
+      <div className="mx-auto max-w-6xl px-5 md:px-8 py-14 md:py-20 grid gap-10 md:grid-cols-5">
         <div className="md:col-span-1">
           <div className="font-display text-2xl text-[color:var(--color-cream-50)] mb-2">
             RWE <span className="text-[color:var(--color-gold-400)]">·</span>{" "}
@@ -73,6 +73,13 @@ export function SiteFooter() {
             <li><FooterLink href="/fees">Legal Fees</FooterLink></li>
             <li><FooterLink href="/contact">Contact</FooterLink></li>
             <li><FooterLink href="/book">Book a consultation</FooterLink></li>
+          </ul>
+        </div>
+
+        <div>
+          <FooterHeading>For Clients</FooterHeading>
+          <ul className="space-y-2 text-sm">
+            <li><FooterLink href="/pay">Pay an invoice</FooterLink></li>
           </ul>
         </div>
 
