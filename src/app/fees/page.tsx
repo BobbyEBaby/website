@@ -64,7 +64,7 @@ export default function FeesPage() {
         </h2>
         <ul className="space-y-3 text-[color:var(--color-ink-700)]">
           <Bullet>A typical retainer is $10,000 to complete one step with money leftover.</Bullet>
-          <Bullet>The balance of any retainer funds remaining are returned to you.</Bullet>
+          <Bullet>Once work is complete, the balance of any retainer funds remaining are returned to you.</Bullet>
           <Bullet>You may cancel at any time and have your retainer refunded, minus what has been billed to date.</Bullet>
         </ul>
       </section>
