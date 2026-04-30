@@ -88,23 +88,15 @@ export function ContactForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Your name" name="name" required autoComplete="name" />
         <Field
-          label="Email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
+          label="Other side's name"
+          name="subject"
+          autoComplete="off"
         />
         <Field
           label="Phone"
           name="phone"
           type="tel"
           autoComplete="tel"
-          optional
-        />
-        <Field
-          label="Other side's name"
-          name="subject"
-          autoComplete="off"
           optional
         />
       </div>
