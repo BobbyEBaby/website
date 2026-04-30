@@ -98,6 +98,7 @@ export function ContactForm() {
           label="Other side's name"
           name="subject"
           autoComplete="off"
+          optional
         />
         <Field
           label="Phone"
