@@ -224,3 +224,78 @@ export async function notifyInvoicePayment(
     text: body,
   });
 }
+
+/**
+ * Notify the firm that a retainer deposit cleared into the TRUST account.
+ *
+ * Distinct from notifyInvoicePayment because:
+ *   - The funds are trust funds — bookkeeping, ledger, and reconciliation
+ *     all happen in trust, not in operating.
+ *   - Stripe deducts its fee before deposit, so the firm needs both the
+ *     gross (charged) and the net (received) figures to record the
+ *     correct amount in the trust ledger.
+ */
+export async function notifyRetainerPayment(
+  session: Stripe.Checkout.Session
+): Promise<void> {
+  if (!resend) {
+    console.log(
+      "[notifications] Resend not configured — retainer payment notification skipped",
+      session.id
+    );
+    return;
+  }
+
+  const clientName = session.metadata?.clientName ?? "(unknown)";
+  const clientEmail =
+    session.customer_email ?? session.metadata?.clientEmail ?? "(unknown)";
+  const matterReference = session.metadata?.matterReference ?? "";
+  const note = session.metadata?.note ?? "";
+  const grossCents = session.amount_total ?? 0;
+  const currency = (session.currency ?? "cad").toUpperCase();
+
+  // Stripe Canada standard card pricing: 2.9% + $0.30. The actual fee is
+  // available via Balance Transactions, but for the firm-side alert an
+  // estimate is enough — the bookkeeper will reconcile against the real
+  // figure in the Stripe dashboard / bank statement.
+  const estFeeCents = Math.round(grossCents * 0.029) + 30;
+  const estNetCents = grossCents - estFeeCents;
+
+  const fmt = (c: number) => `$${(c / 100).toFixed(2)}`;
+  const grossStr = `${fmt(grossCents)} ${currency}`;
+  const feeStr = `${fmt(estFeeCents)} ${currency}`;
+  const netStr = `${fmt(estNetCents)} ${currency}`;
+
+  const paymentIntent =
+    typeof session.payment_intent === "string"
+      ? session.payment_intent
+      : session.payment_intent?.id ?? "(none)";
+
+  const subject = matterReference
+    ? `[Retainer] ${fmt(grossCents)} from ${clientName} — ${matterReference}`
+    : `[Retainer] ${fmt(grossCents)} from ${clientName}`;
+
+  const body =
+    `Retainer deposit received via the website (TRUST account).\n\n` +
+    `Charged to client:    ${grossStr}\n` +
+    `Stripe fee (est.):    ${feeStr}\n` +
+    `Net to trust (est.):  ${netStr}\n\n` +
+    `Client:               ${clientName}\n` +
+    `Email:                ${clientEmail}\n` +
+    `Matter / reference:   ${matterReference || "(not provided)"}\n` +
+    `Note from client:     ${note || "(none)"}\n\n` +
+    `Stripe references (TRUST account):\n` +
+    `  Checkout session:   ${session.id}\n` +
+    `  Payment intent:     ${paymentIntent}\n\n` +
+    `Reconcile the actual fee and net deposit against the trust account\n` +
+    `bank statement / Stripe balance transactions before recording in the\n` +
+    `trust ledger. The figures above are estimates based on standard\n` +
+    `Stripe Canada pricing (2.9% + $0.30).\n`;
+
+  await resend.emails.send({
+    from: resendFrom,
+    to: firm.email,
+    subject,
+    text: body,
+  });
+}

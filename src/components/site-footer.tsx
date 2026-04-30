@@ -80,6 +80,7 @@ export function SiteFooter() {
           <FooterHeading>For Clients</FooterHeading>
           <ul className="space-y-2 text-sm">
             <li><FooterLink href="/pay">Pay an invoice</FooterLink></li>
+            <li><FooterLink href="/retainer">Deposit a retainer</FooterLink></li>
           </ul>
         </div>
 
