@@ -18,8 +18,6 @@ export const firm = {
   },
   hours: [
     { day: "Monday – Friday", hours: "9:00 AM – 5:00 PM" },
-    { day: "Saturday", hours: "By appointment" },
-    { day: "Sunday", hours: "By appointment" },
   ],
   social: {
     facebook: "",
