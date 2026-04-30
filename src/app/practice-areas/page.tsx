@@ -15,14 +15,14 @@ export default function PracticeAreasIndexPage() {
       <SectionHeading
         eyebrow="Practice"
         title={<>All our work is family law.</>}
-        lead="Nine focused areas where our team spends every working day. Choose the area closest to your situation — if you&rsquo;re not sure, start with a consultation and we&rsquo;ll figure it out together."
+        lead="Nine focused areas where our team spends every working day — plus a dedicated practice for clients with corporate, trust, or complex tax exposure. If you&rsquo;re not sure where your situation fits, start with a consultation and we&rsquo;ll figure it out together."
       />
 
       <div className="mt-14 grid gap-4 md:grid-cols-2">
         {practiceAreas.map((p) => (
           <Link
             key={p.slug}
-            href={`/practice-areas/${p.slug}`}
+            href={p.customHref ?? `/practice-areas/${p.slug}`}
             className="group relative flex flex-col rounded-xl border border-[color:var(--color-forest-100)] bg-white/60 p-8 transition-colors hover:bg-[color:var(--color-forest-50)] hover:border-[color:var(--color-forest-200)]"
           >
             <div className="font-display text-[1.6rem] text-[color:var(--color-forest-900)] mb-2">

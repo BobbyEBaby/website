@@ -27,7 +27,7 @@ export function SiteHeader() {
                 {practiceAreas.map((p) => (
                   <li key={p.slug}>
                     <Link
-                      href={`/practice-areas/${p.slug}`}
+                      href={p.customHref ?? `/practice-areas/${p.slug}`}
                       className="block px-4 py-2 text-sm hover:bg-[color:var(--color-forest-50)] hover:text-[color:var(--color-forest-800)]"
                     >
                       {p.title}

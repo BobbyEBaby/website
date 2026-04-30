@@ -145,39 +145,76 @@ export default function HomePage() {
             <SectionHeading
               eyebrow="What we do"
               title={<>Family law, end to end.</>}
-              lead="We handle every piece of a separation — and the appeals, if it comes to that. Nine focused areas, one firm, built to see your matter through."
+              lead="We handle every piece of a separation — and the appeals, if it comes to that. Nine focused areas, plus a dedicated practice for clients with corporate, trust, or complex tax exposure."
             />
           </Reveal>
 
           <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {practiceAreas.map((p, idx) => (
-              <Reveal key={p.slug} delay={idx * 70} as="div">
-                <Link
-                  href={`/practice-areas/${p.slug}`}
-                  className="group card-lift relative flex flex-col h-full rounded-2xl border border-[color:var(--color-forest-100)] bg-white/70 p-7 hover:border-[color:var(--color-forest-200)]"
-                >
-                  <div className="font-display text-2xl text-[color:var(--color-forest-900)] mb-3">
-                    {p.title}
-                  </div>
-                  <p className="text-sm text-[color:var(--color-ink-700)] leading-relaxed mb-8">
-                    {p.tagline}
-                  </p>
-                  <span className="mt-auto inline-flex flex-col gap-3">
-                    <span className="card-underline" aria-hidden="true" />
-                    <span className="inline-flex items-center gap-2 text-sm text-[color:var(--color-forest-700)] group-hover:text-[color:var(--color-forest-900)]">
-                      Learn more
-                      <span
-                        aria-hidden="true"
-                        className="transition-transform duration-200 group-hover:translate-x-1"
-                      >
-                        →
+            {practiceAreas
+              .filter((p) => !p.customHref)
+              .map((p, idx) => (
+                <Reveal key={p.slug} delay={idx * 70} as="div">
+                  <Link
+                    href={`/practice-areas/${p.slug}`}
+                    className="group card-lift relative flex flex-col h-full rounded-2xl border border-[color:var(--color-forest-100)] bg-white/70 p-7 hover:border-[color:var(--color-forest-200)]"
+                  >
+                    <div className="font-display text-2xl text-[color:var(--color-forest-900)] mb-3">
+                      {p.title}
+                    </div>
+                    <p className="text-sm text-[color:var(--color-ink-700)] leading-relaxed mb-8">
+                      {p.tagline}
+                    </p>
+                    <span className="mt-auto inline-flex flex-col gap-3">
+                      <span className="card-underline" aria-hidden="true" />
+                      <span className="inline-flex items-center gap-2 text-sm text-[color:var(--color-forest-700)] group-hover:text-[color:var(--color-forest-900)]">
+                        Learn more
+                        <span
+                          aria-hidden="true"
+                          className="transition-transform duration-200 group-hover:translate-x-1"
+                        >
+                          →
+                        </span>
                       </span>
+                    </span>
+                  </Link>
+                </Reveal>
+              ))}
+          </div>
+
+          {/* Featured: a 10th area gets a wider, darker callout below the
+              3×3 grid so the grid stays clean and HNW reads as a different
+              kind of practice (positioning page, not generic template). */}
+          {practiceAreas
+            .filter((p) => p.customHref)
+            .map((p) => (
+              <Reveal key={p.slug} delay={300}>
+                <Link
+                  href={p.customHref!}
+                  className="mt-6 group relative flex flex-col md:flex-row md:items-center justify-between gap-6 rounded-2xl bg-[color:var(--color-forest-900)] text-[color:var(--color-cream-50)] p-8 md:p-10 ring-1 ring-[color:var(--color-forest-800)] hover:ring-[color:var(--color-gold-500)] transition-all"
+                >
+                  <div className="md:max-w-2xl">
+                    <div className="text-xs uppercase tracking-[0.18em] text-[color:var(--color-gold-400)] mb-3">
+                      For clients with complex assets
+                    </div>
+                    <div className="font-display text-3xl md:text-4xl mb-3 leading-tight">
+                      {p.title} family law
+                    </div>
+                    <p className="text-[color:var(--color-cream-100)]/80 leading-relaxed">
+                      {p.summary}
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center gap-2 text-sm font-medium text-[color:var(--color-gold-400)] group-hover:text-[color:var(--color-gold-300)] shrink-0">
+                    Learn more
+                    <span
+                      aria-hidden="true"
+                      className="transition-transform duration-200 group-hover:translate-x-1"
+                    >
+                      →
                     </span>
                   </span>
                 </Link>
               </Reveal>
             ))}
-          </div>
         </Container>
       </section>
 

@@ -119,7 +119,7 @@ export function MobileNav() {
                   {practiceAreas.map((p) => (
                     <li key={p.slug}>
                       <Link
-                        href={`/practice-areas/${p.slug}`}
+                        href={p.customHref ?? `/practice-areas/${p.slug}`}
                         className="block py-1.5 text-sm text-[color:var(--color-ink-700)] hover:text-[color:var(--color-forest-800)]"
                       >
                         {p.title}

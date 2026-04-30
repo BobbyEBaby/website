@@ -5,7 +5,11 @@ import { practiceAreas, getPracticeAreaBySlug } from "@/data/practice-areas";
 import { ButtonLink, Container } from "@/components/ui";
 
 export function generateStaticParams() {
-  return practiceAreas.map((p) => ({ slug: p.slug }));
+  // Skip entries with customHref — they have their own page outside
+  // this template (e.g. /high-net-worth).
+  return practiceAreas
+    .filter((p) => !p.customHref)
+    .map((p) => ({ slug: p.slug }));
 }
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -22,7 +26,9 @@ export async function generateMetadata({
 export default async function PracticeAreaPage({ params }: PageProps) {
   const { slug } = await params;
   const area = getPracticeAreaBySlug(slug);
-  if (!area) notFound();
+  // 404 if the slug doesn't exist, or if it's a customHref-only entry
+  // (those should only be reachable via their custom URL).
+  if (!area || area.customHref) notFound();
 
   return (
     <Container className="py-16 md:py-24">

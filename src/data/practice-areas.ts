@@ -11,6 +11,13 @@ export type PracticeArea = {
    * small "Related" section below the body.
    */
   relatedLinks?: { href: string; title: string; blurb: string }[];
+  /**
+   * If set, listings link to this URL instead of /practice-areas/${slug},
+   * and the [slug] template route doesn't render this entry. Used for
+   * areas that have their own custom page outside the generic template
+   * (e.g. high-net-worth).
+   */
+  customHref?: string;
   /** Legal-information disclaimer shown at the bottom of the page. */
   disclaimer?: string;
 };
@@ -278,6 +285,18 @@ export const practiceAreas: PracticeArea[] = [
     ],
     faqs: [],
     disclaimer: STANDARD_DISCLAIMER,
+  },
+
+  {
+    // Lives at /high-net-worth (custom page, not the generic template).
+    slug: "high-net-worth",
+    title: "High Net Worth",
+    tagline: "Trusts, holdcos, and tax-aware settlement structuring.",
+    summary:
+      "Family law for clients with corporate holdings, discretionary family trust interests, foreign assets, or pre-relationship wealth that has grown materially during the relationship.",
+    body: [],
+    faqs: [],
+    customHref: "/high-net-worth",
   },
 ];
 
