@@ -11,7 +11,7 @@ import { getLawyerBySlug } from "@/data/lawyers";
 import { checkConflict, formatConflictAlert } from "@/lib/conflict-check";
 
 const resendKey = process.env.RESEND_API_KEY;
-const resendFrom = process.env.RESEND_FROM_EMAIL ?? "website@rwelaw.ca";
+const resendFrom = process.env.RESEND_FROM_EMAIL ?? "bookings@rwelaw.ca";
 const resend = resendKey ? new Resend(resendKey) : null;
 
 type Payload = {
