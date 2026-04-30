@@ -4,9 +4,9 @@ import { practiceAreas } from "@/data/practice-areas";
 import { Container, SectionHeading } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Practice Areas",
+  title: "Family Law Practice Areas",
   description:
-    "Family law services at RWE Family Law: divorce, property division, spousal and child support, parenting time, child protection (MCFD), and appeals.",
+    "Family law at RWE Family Law: divorce, property division, spousal and child support, parenting time, child protection (MCFD), appeals, and a dedicated practice for clients with corporate, trust, or complex tax exposure.",
 };
 
 export default function PracticeAreasIndexPage() {
