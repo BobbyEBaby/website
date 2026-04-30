@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getInitials } from "@/data/lawyers";
@@ -437,10 +437,40 @@ function CalendlyStep({
 
 function CalendlyEmbed({ url, service }: { url: string; service: Service }) {
   const [origin, setOrigin] = useState<string>("");
+  const [booked, setBooked] = useState(false);
+  const bannerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setOrigin(window.location.host);
   }, []);
+
+  // Calendly's inline embed broadcasts postMessages with shape
+  // `{ event: "calendly.event_scheduled", payload: {...} }` when a booking
+  // completes. We don't navigate the user away — Calendly's own
+  // confirmation (calendar invite link, "add to Google Calendar", etc.)
+  // stays useful to them. Instead we surface a banner above the iframe
+  // pointing to the intake form as the next step.
+  useEffect(() => {
+    function onMessage(e: MessageEvent) {
+      const data = e.data as { event?: unknown } | null;
+      if (
+        data &&
+        typeof data === "object" &&
+        typeof data.event === "string" &&
+        data.event === "calendly.event_scheduled"
+      ) {
+        setBooked(true);
+      }
+    }
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
+  useEffect(() => {
+    if (booked && bannerRef.current) {
+      bannerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [booked]);
 
   // Brand the widget and prefill the event type via UTM so Calendly can route
   // mediation vs. consultation to the right event on the lawyer's calendar.
@@ -456,18 +486,53 @@ function CalendlyEmbed({ url, service }: { url: string; service: Service }) {
   const src = `${url}?${params.toString()}`;
 
   return (
-    <div
-      className="rounded-xl border border-[color:var(--color-forest-100)] overflow-hidden bg-white"
-      aria-label="Scheduling calendar"
-    >
-      <iframe
-        key={src}
-        src={src}
-        title="Schedule a time"
-        className="block w-full"
-        style={{ height: "min(1100px, 100vh)", minHeight: 720 }}
-        loading="lazy"
-      />
+    <div className="space-y-5">
+      {booked && (
+        <div
+          ref={bannerRef}
+          className="rounded-xl border border-[color:var(--color-forest-200)] bg-[color:var(--color-forest-50)] p-6 md:p-7"
+          role="status"
+          aria-live="polite"
+        >
+          <div className="text-xs uppercase tracking-[0.18em] text-[color:var(--color-gold-600)] mb-2">
+            Booking confirmed
+          </div>
+          <h3 className="font-display text-2xl text-[color:var(--color-forest-900)]">
+            One last step — tell us about your matter.
+          </h3>
+          <p className="mt-2 text-sm text-[color:var(--color-ink-700)] leading-relaxed">
+            A quick intake form helps your lawyer prepare for your
+            consultation. Every field is optional — share what you can,
+            skip the rest. Your calendar invite is in the confirmation
+            below; you can fill out intake before or after saving it.
+          </p>
+          <div className="mt-4">
+            <Link
+              href="/intake"
+              className="inline-flex items-center gap-2 rounded-full bg-[color:var(--color-forest-800)] text-[color:var(--color-cream-50)] text-sm font-medium px-5 py-2.5 hover:bg-[color:var(--color-forest-900)] transition-colors"
+            >
+              Continue to client intake
+              <span aria-hidden="true" className="text-[color:var(--color-gold-400)]">
+                →
+              </span>
+            </Link>
+          </div>
+        </div>
+      )}
+
+      <div
+        className="rounded-xl border border-[color:var(--color-forest-100)] overflow-hidden bg-white"
+        aria-label="Scheduling calendar"
+      >
+        <iframe
+          key={src}
+          src={src}
+          title="Schedule a time"
+          className="block w-full"
+          style={{ height: "min(1100px, 100vh)", minHeight: 720 }}
+          loading="lazy"
+        />
+      </div>
     </div>
   );
 }
