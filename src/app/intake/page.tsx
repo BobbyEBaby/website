@@ -47,8 +47,11 @@ export default function IntakePage() {
                   Conflict check.
                 </span>{" "}
                 We screen the names you give us against our conflicts
-                database before responding. If a possible conflict comes
-                up, we&rsquo;ll let you know we can&rsquo;t take the file.
+                database before responding or sending this information to
+                any of our lawyers. If a possible conflict comes up,
+                we&rsquo;ll let you know we can&rsquo;t take the file and
+                delete the information from our system before any of our
+                lawyers have had access to it.
               </li>
               <li>
                 <span className="font-medium text-[color:var(--color-forest-900)]">
