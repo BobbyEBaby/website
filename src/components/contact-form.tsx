@@ -102,7 +102,7 @@ export function ContactForm() {
           optional
         />
         <Field
-          label="Name of opposing party"
+          label="Other side's name"
           name="subject"
           autoComplete="off"
           optional
