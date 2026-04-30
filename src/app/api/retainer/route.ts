@@ -15,15 +15,15 @@ import { stripeTrust, isStripeTrustConfigured } from "@/lib/stripe";
 
 export const dynamic = "force-dynamic";
 
-// Min $500 reflects the smallest realistic retainer — anything smaller is
-// almost certainly a typo or a tinkerer. Max $100,000 catches finger-trips
-// at the high end; a six-figure retainer is unusual enough that we'd
-// rather it route through the office.
+// No firm-imposed minimum — Stripe enforces its own CAD floor (~$0.50)
+// and rejects anything lower with a real error. Max $100,000 catches
+// finger-trips at the high end; a six-figure retainer is unusual enough
+// that we'd rather it route through the office.
 const RetainerSchema = z.object({
   clientName: z.string().min(2).max(120),
   clientEmail: z.string().email().max(200),
   matterReference: z.string().max(120).optional().or(z.literal("")),
-  amountCad: z.number().min(500).max(100000),
+  amountCad: z.number().positive().max(100000),
   note: z.string().max(500).optional().or(z.literal("")),
   website: z.string().optional(), // honeypot
 });
@@ -39,7 +39,7 @@ function readableError(issue: z.ZodIssue): string {
     case "clientEmail":
       return "Please enter a valid email address.";
     case "amountCad":
-      return "Amount must be between $500 and $100,000. For smaller deposits, please call the office.";
+      return "Amount must be a positive number up to $100,000. For larger deposits, please call the office.";
     case "matterReference":
       return "Matter reference is too long (max 120 characters).";
     case "note":
