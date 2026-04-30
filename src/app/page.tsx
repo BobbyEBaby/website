@@ -197,7 +197,7 @@ export default function HomePage() {
                       For clients with complex assets
                     </div>
                     <div className="font-display text-3xl md:text-4xl mb-3 leading-tight">
-                      {p.title} family law
+                      {p.title}
                     </div>
                     <p className="text-[color:var(--color-cream-100)]/80 leading-relaxed">
                       {p.summary}

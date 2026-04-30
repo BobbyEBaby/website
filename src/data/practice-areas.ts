@@ -110,7 +110,7 @@ export const practiceAreas: PracticeArea[] = [
   {
     // Lives at /high-net-worth (custom page, not the generic template).
     slug: "high-net-worth",
-    title: "High Net Worth",
+    title: "High Net Worth Family Law",
     tagline: "Trusts, holdcos, and tax-aware settlement structuring.",
     summary:
       "Family law for clients with corporate holdings, discretionary family trust interests, foreign assets, or pre-relationship wealth that has grown materially during the relationship.",
