@@ -39,15 +39,10 @@ export function SiteHeader() {
           </div>
           <PrimaryLink href="/mediation">Mediation</PrimaryLink>
           <PrimaryLink href="/fees">Legal Fees</PrimaryLink>
+          <PrimaryLink href="/contact">Contact</PrimaryLink>
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="/contact"
-            className="hidden md:inline-flex items-center gap-2 rounded-full bg-[color:var(--color-forest-800)] text-[color:var(--color-cream-50)] text-sm font-medium px-4 md:px-5 py-2 md:py-2.5 transition-colors hover:bg-[color:var(--color-forest-900)]"
-          >
-            Contact Office
-          </Link>
           <Link
             href="/book"
             className="hidden md:inline-flex items-center gap-2 rounded-full bg-[color:var(--color-forest-800)] text-[color:var(--color-cream-50)] text-sm font-medium px-4 md:px-5 py-2 md:py-2.5 transition-colors hover:bg-[color:var(--color-forest-900)]"
