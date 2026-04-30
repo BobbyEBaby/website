@@ -18,7 +18,7 @@
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { head } from "@vercel/blob";
+import { get } from "@vercel/blob";
 
 const BLOB_PATHNAME = "conflicts/current.json";
 
@@ -65,12 +65,15 @@ async function doLoad(): Promise<ConflictData> {
 
 async function loadFromBlob(): Promise<ConflictData> {
   try {
-    const meta = await head(BLOB_PATHNAME);
-    const res = await fetch(meta.url, { cache: "no-store" });
-    if (!res.ok) {
-      throw new Error(`Blob fetch returned HTTP ${res.status}`);
+    // get() authenticates via BLOB_READ_WRITE_TOKEN — required because the
+    // store is private (the URL alone won't fetch). Returns null if the
+    // pathname doesn't exist yet.
+    const result = await get(BLOB_PATHNAME, { access: "private" });
+    if (!result) {
+      throw new Error(`Blob ${BLOB_PATHNAME} not found in store`);
     }
-    const json = (await res.json()) as ConflictData;
+    const text = await new Response(result.stream).text();
+    const json = JSON.parse(text) as ConflictData;
     console.log(
       `[conflict-check] loaded ${json.records.length} records from Vercel Blob`
     );

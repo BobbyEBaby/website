@@ -49,3 +49,6 @@ next-env.d.ts
 /data/conflicts-review.xlsx
 /master client list.xlsx
 /master client list*.xlsx
+
+.vercel
+.env*.local
