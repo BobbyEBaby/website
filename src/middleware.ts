@@ -22,6 +22,11 @@ export function middleware(req: NextRequest) {
   });
 }
 
+// Exclude paths that must be reachable without Basic Auth:
+//   - _next/static, _next/image, favicon.ico — Next asset paths
+//   - api/stripe/webhook — Stripe servers POST here; they can't send creds
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|api/stripe/webhook).*)",
+  ],
 };
