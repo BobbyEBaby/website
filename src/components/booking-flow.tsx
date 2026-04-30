@@ -38,6 +38,11 @@ export function BookingFlow({
     preselectedLawyerSlug ?? null
   );
   const [service, setService] = useState<Service>(preselectedService);
+  // Held at parent so the post-booking banner in step 3 can prefill
+  // the intake form via URL params with what the user already typed
+  // on the conflict screen.
+  const [clientName, setClientName] = useState("");
+  const [opposingName, setOpposingName] = useState("");
 
   const selectedLawyer =
     lawyers.find((l) => l.slug === selectedSlug) ?? null;
@@ -64,6 +69,10 @@ export function BookingFlow({
         <DetailsStep
           lawyer={selectedLawyer}
           service={service}
+          clientName={clientName}
+          setClientName={setClientName}
+          opposingName={opposingName}
+          setOpposingName={setOpposingName}
           onBack={() => setStep(1)}
           onContinue={() => setStep(3)}
         />
@@ -73,6 +82,8 @@ export function BookingFlow({
         <CalendlyStep
           lawyer={selectedLawyer}
           service={service}
+          clientName={clientName}
+          opposingName={opposingName}
           onBack={() => setStep(2)}
         />
       )}
@@ -241,16 +252,22 @@ function ServiceToggle({
 function DetailsStep({
   lawyer,
   service,
+  clientName,
+  setClientName,
+  opposingName,
+  setOpposingName,
   onBack,
   onContinue,
 }: {
   lawyer: LawyerSummary;
   service: Service;
+  clientName: string;
+  setClientName: (v: string) => void;
+  opposingName: string;
+  setOpposingName: (v: string) => void;
   onBack: () => void;
   onContinue: () => void;
 }) {
-  const [clientName, setClientName] = useState("");
-  const [opposingName, setOpposingName] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -402,10 +419,14 @@ function DetailsStep({
 function CalendlyStep({
   lawyer,
   service,
+  clientName,
+  opposingName,
   onBack,
 }: {
   lawyer: LawyerSummary;
   service: Service;
+  clientName: string;
+  opposingName: string;
   onBack: () => void;
 }) {
   return (
@@ -427,7 +448,12 @@ function CalendlyStep({
       </div>
 
       {lawyer.calendlyUrl ? (
-        <CalendlyEmbed url={lawyer.calendlyUrl} service={service} />
+        <CalendlyEmbed
+          url={lawyer.calendlyUrl}
+          service={service}
+          clientName={clientName}
+          opposingName={opposingName}
+        />
       ) : (
         <CalendlyUnavailable lawyer={lawyer} />
       )}
@@ -435,7 +461,17 @@ function CalendlyStep({
   );
 }
 
-function CalendlyEmbed({ url, service }: { url: string; service: Service }) {
+function CalendlyEmbed({
+  url,
+  service,
+  clientName,
+  opposingName,
+}: {
+  url: string;
+  service: Service;
+  clientName: string;
+  opposingName: string;
+}) {
   const [origin, setOrigin] = useState<string>("");
   const [booked, setBooked] = useState(false);
   const bannerRef = useRef<HTMLDivElement | null>(null);
@@ -485,6 +521,15 @@ function CalendlyEmbed({ url, service }: { url: string; service: Service }) {
 
   const src = `${url}?${params.toString()}`;
 
+  // Prefill the intake form with what they already typed on the conflict
+  // screen so they don't have to type it twice.
+  const intakeQuery = new URLSearchParams();
+  if (clientName) intakeQuery.set("clientName", clientName);
+  if (opposingName) intakeQuery.set("opposingName", opposingName);
+  const intakeHref = intakeQuery.toString()
+    ? `/intake?${intakeQuery.toString()}`
+    : "/intake";
+
   return (
     <div className="space-y-5">
       {booked && (
@@ -508,7 +553,7 @@ function CalendlyEmbed({ url, service }: { url: string; service: Service }) {
           </p>
           <div className="mt-4">
             <Link
-              href="/intake"
+              href={intakeHref}
               className="inline-flex items-center gap-2 rounded-full bg-[color:var(--color-forest-800)] text-[color:var(--color-cream-50)] text-sm font-medium px-5 py-2.5 hover:bg-[color:var(--color-forest-900)] transition-colors"
             >
               Continue to client intake

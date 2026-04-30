@@ -4,7 +4,13 @@ import { useState } from "react";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-export function IntakeForm() {
+export function IntakeForm({
+  initialClientName = "",
+  initialOpposingName = "",
+}: {
+  initialClientName?: string;
+  initialOpposingName?: string;
+} = {}) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -115,6 +121,7 @@ export function IntakeForm() {
             label="Your name"
             name="clientName"
             autoComplete="name"
+            defaultValue={initialClientName}
             hint="So we know who&rsquo;s asking."
           />
           <Field
@@ -135,7 +142,12 @@ export function IntakeForm() {
 
       <Section title="The other side">
         <div className="grid gap-5 sm:grid-cols-2">
-          <Field label="Their name" name="opposingName" autoComplete="off" />
+          <Field
+            label="Their name"
+            name="opposingName"
+            autoComplete="off"
+            defaultValue={initialOpposingName}
+          />
           <Field
             label="Their lawyer (if any)"
             name="opposingLawyer"
@@ -333,6 +345,7 @@ function Field({
   placeholder,
   hint,
   wide = false,
+  defaultValue,
 }: {
   label: string;
   name: string;
@@ -341,6 +354,7 @@ function Field({
   placeholder?: string;
   hint?: string;
   wide?: boolean;
+  defaultValue?: string;
 }) {
   return (
     <label className={`block ${wide ? "sm:col-span-2" : ""}`}>
@@ -352,6 +366,7 @@ function Field({
         name={name}
         autoComplete={autoComplete}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         className="w-full rounded-lg border border-[color:var(--color-forest-100)] bg-white px-3.5 py-2.5 text-[color:var(--color-ink-900)] placeholder:text-[color:var(--color-ink-500)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-forest-400)] focus:border-[color:var(--color-forest-400)]"
       />
       {hint && (

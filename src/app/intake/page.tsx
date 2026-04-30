@@ -9,7 +9,12 @@ export const metadata: Metadata = {
     "Share the details of your family-law matter with RWE Family Law before your first consult. Every field is optional.",
 };
 
-export default function IntakePage() {
+export default async function IntakePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ clientName?: string; opposingName?: string }>;
+}) {
+  const sp = await searchParams;
   return (
     <Container className="py-16 md:py-24">
       <div className="max-w-3xl">
@@ -22,7 +27,10 @@ export default function IntakePage() {
 
       <div className="mt-12 grid gap-10 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <div className="order-2 md:order-1">
-          <IntakeForm />
+          <IntakeForm
+            initialClientName={sp.clientName ?? ""}
+            initialOpposingName={sp.opposingName ?? ""}
+          />
 
           {/* Privacy / use-of-info notice. Family-law intake collects
               sensitive personal and financial information; clients should
