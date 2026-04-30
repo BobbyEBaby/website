@@ -230,7 +230,8 @@ function AmountField() {
         />
       </div>
       <span className="mt-1 block text-xs text-[color:var(--color-ink-500)]">
-        Match the amount on your retainer agreement.
+        Match the amount on your retainer agreement. Minimum $500 — for
+        smaller deposits, please call the office.
       </span>
     </label>
   );
