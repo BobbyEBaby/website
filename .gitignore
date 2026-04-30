@@ -43,3 +43,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# conflict-check data (PII — never commit)
+/data/conflicts.json
+/data/conflicts-review.xlsx
+/master client list.xlsx
+/master client list*.xlsx

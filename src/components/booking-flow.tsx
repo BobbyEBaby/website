@@ -20,6 +20,8 @@ type LawyerSummary = {
 
 type Service = "CONSULTATION" | "MEDIATION";
 
+type Step = 1 | 2 | 3;
+
 type Props = {
   lawyers: LawyerSummary[];
   preselectedLawyerSlug?: string;
@@ -31,7 +33,7 @@ export function BookingFlow({
   preselectedLawyerSlug,
   preselectedService = "CONSULTATION",
 }: Props) {
-  const [step, setStep] = useState<1 | 2>(preselectedLawyerSlug ? 2 : 1);
+  const [step, setStep] = useState<Step>(preselectedLawyerSlug ? 2 : 1);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(
     preselectedLawyerSlug ?? null
   );
@@ -59,20 +61,30 @@ export function BookingFlow({
       )}
 
       {step === 2 && selectedLawyer && (
-        <CalendlyStep
+        <DetailsStep
           lawyer={selectedLawyer}
           service={service}
           onBack={() => setStep(1)}
+          onContinue={() => setStep(3)}
+        />
+      )}
+
+      {step === 3 && selectedLawyer && (
+        <CalendlyStep
+          lawyer={selectedLawyer}
+          service={service}
+          onBack={() => setStep(2)}
         />
       )}
     </div>
   );
 }
 
-function Stepper({ step }: { step: 1 | 2 }) {
+function Stepper({ step }: { step: Step }) {
   const steps = [
     { n: 1, label: "Choose lawyer" },
-    { n: 2, label: "Pick a time" },
+    { n: 2, label: "A few details" },
+    { n: 3, label: "Pick a time" },
   ];
   return (
     <ol className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
@@ -224,7 +236,168 @@ function ServiceToggle({
   );
 }
 
-// ---- Step 2: Calendly embed ------------------------------------------
+// ---- Step 2: Quick details (conflict screen) -------------------------
+
+function DetailsStep({
+  lawyer,
+  service,
+  onBack,
+  onContinue,
+}: {
+  lawyer: LawyerSummary;
+  service: Service;
+  onBack: () => void;
+  onContinue: () => void;
+}) {
+  const [clientName, setClientName] = useState("");
+  const [opposingName, setOpposingName] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+    if (!clientName.trim() || !opposingName.trim()) {
+      setError("Please fill in both fields.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      // Fire the screen but don't block forward progress on a network blip —
+      // a missed conflict alert is recoverable; preventing a paid booking
+      // because of a flaky API is not.
+      const res = await fetch("/api/booking-screen", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientName: clientName.trim(),
+          opposingName: opposingName.trim(),
+          lawyerSlug: lawyer.slug,
+          service,
+        }),
+      });
+      if (!res.ok) {
+        const data = (await res.json().catch(() => ({}))) as { error?: string };
+        if (res.status === 400) {
+          setError(data.error ?? "Please check the fields above.");
+          setSubmitting(false);
+          return;
+        }
+        // 5xx — log it but proceed
+        console.warn("[booking-screen] non-OK response, proceeding anyway", res.status);
+      }
+    } catch (e) {
+      console.warn("[booking-screen] request failed, proceeding anyway", e);
+    }
+    onContinue();
+  }
+
+  return (
+    <div>
+      <div className="flex items-center gap-3 mb-6">
+        <button
+          type="button"
+          onClick={onBack}
+          className="text-sm text-[color:var(--color-forest-700)] hover:text-[color:var(--color-forest-900)]"
+        >
+          ← Change lawyer
+        </button>
+        <span className="text-sm text-[color:var(--color-ink-500)]">
+          Booking with{" "}
+          <span className="font-medium text-[color:var(--color-forest-900)]">
+            {lawyer.name}
+          </span>
+        </span>
+      </div>
+
+      <form
+        onSubmit={onSubmit}
+        className="rounded-xl border border-[color:var(--color-forest-100)] bg-white/60 p-6 md:p-8 space-y-5 max-w-xl"
+        aria-label="A few details before booking"
+      >
+        <div className="text-xs uppercase tracking-[0.18em] text-[color:var(--color-gold-600)]">
+          Step 2 of 3
+        </div>
+        <h3 className="font-display text-2xl text-[color:var(--color-forest-900)]">
+          A few details before we show you times.
+        </h3>
+        <p className="text-sm text-[color:var(--color-ink-700)] leading-relaxed">
+          We use these to make sure there&rsquo;s no conflict of interest between
+          you, the other side, and our existing clients.
+        </p>
+
+        <label className="block">
+          <span className="block text-sm font-medium text-[color:var(--color-ink-900)] mb-1.5">
+            Your full name
+          </span>
+          <input
+            type="text"
+            name="clientName"
+            value={clientName}
+            onChange={(e) => setClientName(e.target.value)}
+            required
+            autoComplete="name"
+            className="w-full rounded-lg border border-[color:var(--color-forest-100)] bg-white px-3.5 py-2.5 text-[color:var(--color-ink-900)] placeholder:text-[color:var(--color-ink-500)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-forest-400)] focus:border-[color:var(--color-forest-400)]"
+          />
+        </label>
+
+        <label className="block">
+          <span className="block text-sm font-medium text-[color:var(--color-ink-900)] mb-1.5">
+            Other side&rsquo;s full name
+          </span>
+          <input
+            type="text"
+            name="opposingName"
+            value={opposingName}
+            onChange={(e) => setOpposingName(e.target.value)}
+            required
+            autoComplete="off"
+            placeholder="Spouse, ex-partner, or whomever the matter is against"
+            className="w-full rounded-lg border border-[color:var(--color-forest-100)] bg-white px-3.5 py-2.5 text-[color:var(--color-ink-900)] placeholder:text-[color:var(--color-ink-500)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-forest-400)] focus:border-[color:var(--color-forest-400)]"
+          />
+        </label>
+
+        {/* Honeypot */}
+        <div
+          aria-hidden="true"
+          className="absolute -left-[9999px] top-auto w-px h-px overflow-hidden"
+        >
+          <label>
+            Leave this field empty
+            <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+          </label>
+        </div>
+
+        {error && (
+          <div
+            role="alert"
+            className="rounded-lg border border-red-200 bg-red-50 text-red-800 px-4 py-3 text-sm"
+          >
+            {error}
+          </div>
+        )}
+
+        <div className="pt-1">
+          <button
+            type="submit"
+            disabled={submitting}
+            className="inline-flex items-center gap-2 rounded-full bg-[color:var(--color-forest-800)] text-[color:var(--color-cream-50)] text-sm font-medium px-5 py-2.5 transition-colors hover:bg-[color:var(--color-forest-900)] disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {submitting ? "Continuing…" : "Continue to scheduling"}
+            {!submitting && (
+              <span aria-hidden="true" className="text-[color:var(--color-gold-400)]">
+                →
+              </span>
+            )}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+// ---- Step 3: Calendly embed ------------------------------------------
 
 function CalendlyStep({
   lawyer,
