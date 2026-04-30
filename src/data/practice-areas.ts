@@ -5,6 +5,12 @@ export type PracticeArea = {
   summary: string;
   body: { heading: string; text: string }[];
   faqs: { q: string; a: string }[];
+  /**
+   * Cross-links to related pages outside the practice-areas system —
+   * e.g. /high-net-worth from family property division. Rendered as a
+   * small "Related" section below the body.
+   */
+  relatedLinks?: { href: string; title: string; blurb: string }[];
   /** Legal-information disclaimer shown at the bottom of the page. */
   disclaimer?: string;
 };
@@ -83,6 +89,14 @@ export const practiceAreas: PracticeArea[] = [
       },
     ],
     faqs: [],
+    relatedLinks: [
+      {
+        href: "/high-net-worth",
+        title: "High net worth family law",
+        blurb:
+          "Resulting trusts, discretionary family trust interests, closely-held companies, and tax-aware settlement structuring — for clients whose property division involves more than a house and a pension.",
+      },
+    ],
     disclaimer: STANDARD_DISCLAIMER,
   },
 

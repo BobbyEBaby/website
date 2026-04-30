@@ -63,6 +63,39 @@ export default async function PracticeAreaPage({ params }: PageProps) {
             </section>
           ))}
 
+          {area.relatedLinks && area.relatedLinks.length > 0 && (
+            <section className="mt-4 border-t border-[color:var(--color-forest-100)] pt-10">
+              <h2 className="font-display text-2xl text-[color:var(--color-forest-900)] mb-6">
+                Related
+              </h2>
+              <ul className="space-y-4">
+                {area.relatedLinks.map((rl) => (
+                  <li key={rl.href}>
+                    <Link
+                      href={rl.href}
+                      className="block rounded-xl border border-[color:var(--color-forest-100)] bg-white/70 p-5 hover:border-[color:var(--color-forest-200)] hover:bg-[color:var(--color-forest-50)] transition-colors group"
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="font-display text-xl text-[color:var(--color-forest-900)]">
+                          {rl.title}
+                        </div>
+                        <span
+                          aria-hidden="true"
+                          className="text-[color:var(--color-gold-500)] group-hover:text-[color:var(--color-gold-400)] transition-colors mt-1"
+                        >
+                          →
+                        </span>
+                      </div>
+                      <p className="mt-2 text-sm text-[color:var(--color-ink-700)] leading-relaxed">
+                        {rl.blurb}
+                      </p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
           {area.faqs.length > 0 && (
             <section className="mt-4 border-t border-[color:var(--color-forest-100)] pt-10">
               <h2 className="font-display text-2xl text-[color:var(--color-forest-900)] mb-6">
