@@ -15,21 +15,47 @@ import { stripeTrust, isStripeTrustConfigured } from "@/lib/stripe";
 
 export const dynamic = "force-dynamic";
 
+// Min $5 mirrors /pay (anti-tinkerer floor, not a business rule). Max
+// $100,000 catches finger-trips — a six-figure retainer is unusual enough
+// that we'd rather it route through the office.
 const RetainerSchema = z.object({
   clientName: z.string().min(2).max(120),
   clientEmail: z.string().email().max(200),
   matterReference: z.string().max(120).optional().or(z.literal("")),
-  amountCad: z.number().min(50).max(100000),
+  amountCad: z.number().min(5).max(100000),
   note: z.string().max(500).optional().or(z.literal("")),
   website: z.string().optional(), // honeypot
 });
+
+// Translate Zod's first failing field into a sentence the client can act
+// on. Without this, every server-side rejection looks identical and the
+// only way to debug is the Vercel logs.
+function readableError(issue: z.ZodIssue): string {
+  const field = issue.path[0];
+  switch (field) {
+    case "clientName":
+      return "Please enter your full name.";
+    case "clientEmail":
+      return "Please enter a valid email address.";
+    case "amountCad":
+      return "Amount must be between $5 and $100,000.";
+    case "matterReference":
+      return "Matter reference is too long (max 120 characters).";
+    case "note":
+      return "Note is too long (max 500 characters).";
+    default:
+      return "Please double-check the fields and try again.";
+  }
+}
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
   const parsed = RetainerSchema.safeParse(body);
   if (!parsed.success) {
+    const first = parsed.error.issues[0];
+    console.warn("[retainer] validation failed", parsed.error.issues);
     return NextResponse.json(
-      { error: "Please double-check the fields and try again." },
+      { error: first ? readableError(first) : "Please double-check the fields and try again." },
       { status: 400 }
     );
   }
