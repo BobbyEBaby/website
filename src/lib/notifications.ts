@@ -81,6 +81,25 @@ function formatInZone(d: Date, timezone: string) {
   }).format(d);
 }
 
+/**
+ * Estimate Stripe Canada card-pricing fee and net deposit amount.
+ *
+ * Standard Stripe Canada pricing: 2.9% + $0.30 per successful card charge.
+ * The actual fee is available via Balance Transactions, but for firm-side
+ * notification emails an estimate is enough — the bookkeeper reconciles
+ * against the real figure in the Stripe dashboard / bank statement.
+ *
+ * Returns cents (matching `session.amount_total`'s native unit).
+ */
+function estimateStripeFee(grossCents: number): {
+  feeCents: number;
+  netCents: number;
+} {
+  const feeCents = Math.round(grossCents * 0.029) + 30;
+  const netCents = grossCents - feeCents;
+  return { feeCents, netCents };
+}
+
 export async function notifyBookingConfirmed(
   booking: Booking,
   lawyer: Lawyer
@@ -89,6 +108,14 @@ export async function notifyBookingConfirmed(
   const service =
     booking.service === "MEDIATION" ? "mediation" : "consultation";
   const amount = `$${(booking.priceCents / 100).toFixed(2)} ${booking.currency}`;
+
+  // Same gross/fee/net breakdown the invoice + retainer notifications use,
+  // so the firm can record the actual deposit amount without round-tripping
+  // through the Stripe dashboard.
+  const { feeCents, netCents } = estimateStripeFee(booking.priceCents);
+  const fmt = (c: number) => `$${(c / 100).toFixed(2)}`;
+  const feeStr = `${fmt(feeCents)} ${booking.currency}`;
+  const netStr = `${fmt(netCents)} ${booking.currency}`;
 
   let ics = "";
   try {
@@ -134,12 +161,16 @@ export async function notifyBookingConfirmed(
       subject: `New ${service}: ${booking.clientName} — ${when}`,
       text:
         `New ${service} booked.\n\n` +
-        `Client: ${booking.clientName}\n` +
-        `Email: ${booking.clientEmail}\n` +
-        `Phone: ${booking.clientPhoneE164}\n` +
-        `When:  ${when}\n` +
-        `Urgency: ${booking.urgency}\n` +
-        `Paid: ${amount}\n\n` +
+        `Client:  ${booking.clientName}\n` +
+        `Email:   ${booking.clientEmail}\n` +
+        `Phone:   ${booking.clientPhoneE164}\n` +
+        `When:    ${when}\n` +
+        `Urgency: ${booking.urgency}\n\n` +
+        `Charged to client:        ${amount}\n` +
+        `Stripe fee (est.):        ${feeStr}\n` +
+        `Net to operating (est.):  ${netStr}\n` +
+        `(Estimates based on standard Stripe Canada pricing — 2.9% + $0.30.\n` +
+        ` Reconcile against actual figure in the Stripe dashboard.)\n\n` +
         `Client's summary:\n${booking.clientSummary ?? "(not provided)"}\n\n` +
         `Reference: ${booking.id}`,
       attachments,
@@ -192,30 +223,39 @@ export async function notifyInvoicePayment(
     session.customer_email ?? session.metadata?.clientEmail ?? "(unknown)";
   const invoiceNumber = session.metadata?.invoiceNumber ?? "";
   const note = session.metadata?.note ?? "";
-  const amountCents = session.amount_total ?? 0;
+  const grossCents = session.amount_total ?? 0;
   const currency = (session.currency ?? "cad").toUpperCase();
-  const amountStr = `$${(amountCents / 100).toFixed(2)} ${currency}`;
+  const { feeCents, netCents } = estimateStripeFee(grossCents);
+  const fmt = (c: number) => `$${(c / 100).toFixed(2)}`;
+  const grossStr = `${fmt(grossCents)} ${currency}`;
+  const feeStr = `${fmt(feeCents)} ${currency}`;
+  const netStr = `${fmt(netCents)} ${currency}`;
   const paymentIntent =
     typeof session.payment_intent === "string"
       ? session.payment_intent
       : session.payment_intent?.id ?? "(none)";
 
   const subject = invoiceNumber
-    ? `[Payment] $${(amountCents / 100).toFixed(2)} from ${clientName} — invoice ${invoiceNumber}`
-    : `[Payment] $${(amountCents / 100).toFixed(2)} from ${clientName}`;
+    ? `[Payment] ${fmt(grossCents)} from ${clientName} — invoice ${invoiceNumber}`
+    : `[Payment] ${fmt(grossCents)} from ${clientName}`;
 
   const body =
-    `Invoice payment received via the website.\n\n` +
-    `Amount:          ${amountStr}\n` +
-    `Client:          ${clientName}\n` +
-    `Email:           ${clientEmail}\n` +
-    `Invoice number:  ${invoiceNumber || "(not provided)"}\n` +
-    `Note from payer: ${note || "(none)"}\n\n` +
-    `Stripe references:\n` +
-    `  Checkout session:  ${session.id}\n` +
-    `  Payment intent:    ${paymentIntent}\n\n` +
-    `The client has been emailed a Stripe receipt automatically.\n` +
-    `Reconcile this against the matching file.\n`;
+    `Invoice payment received via the website (OPERATING account).\n\n` +
+    `Charged to client:        ${grossStr}\n` +
+    `Stripe fee (est.):        ${feeStr}\n` +
+    `Net to operating (est.):  ${netStr}\n\n` +
+    `Client:                   ${clientName}\n` +
+    `Email:                    ${clientEmail}\n` +
+    `Invoice number:           ${invoiceNumber || "(not provided)"}\n` +
+    `Note from payer:          ${note || "(none)"}\n\n` +
+    `Stripe references (OPERATING account):\n` +
+    `  Checkout session:       ${session.id}\n` +
+    `  Payment intent:         ${paymentIntent}\n\n` +
+    `Reconcile the actual fee and net deposit against the operating account\n` +
+    `bank statement / Stripe balance transactions before recording. The\n` +
+    `figures above are estimates based on standard Stripe Canada pricing\n` +
+    `(2.9% + $0.30). The client has been emailed a Stripe receipt\n` +
+    `automatically.\n`;
 
   await resend.emails.send({
     from: resendFrom,
@@ -253,18 +293,12 @@ export async function notifyRetainerPayment(
   const note = session.metadata?.note ?? "";
   const grossCents = session.amount_total ?? 0;
   const currency = (session.currency ?? "cad").toUpperCase();
-
-  // Stripe Canada standard card pricing: 2.9% + $0.30. The actual fee is
-  // available via Balance Transactions, but for the firm-side alert an
-  // estimate is enough — the bookkeeper will reconcile against the real
-  // figure in the Stripe dashboard / bank statement.
-  const estFeeCents = Math.round(grossCents * 0.029) + 30;
-  const estNetCents = grossCents - estFeeCents;
+  const { feeCents, netCents } = estimateStripeFee(grossCents);
 
   const fmt = (c: number) => `$${(c / 100).toFixed(2)}`;
   const grossStr = `${fmt(grossCents)} ${currency}`;
-  const feeStr = `${fmt(estFeeCents)} ${currency}`;
-  const netStr = `${fmt(estNetCents)} ${currency}`;
+  const feeStr = `${fmt(feeCents)} ${currency}`;
+  const netStr = `${fmt(netCents)} ${currency}`;
 
   const paymentIntent =
     typeof session.payment_intent === "string"
