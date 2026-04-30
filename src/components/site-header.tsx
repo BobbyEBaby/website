@@ -48,13 +48,6 @@ export function SiteHeader() {
           >
             Contact Office
           </Link>
-          <Link
-            href="/book"
-            className="hidden md:inline-flex items-center gap-2 rounded-full bg-[color:var(--color-forest-800)] text-[color:var(--color-cream-50)] text-sm font-medium px-4 md:px-5 py-2 md:py-2.5 transition-colors hover:bg-[color:var(--color-forest-900)]"
-          >
-            Book consultation
-            <span aria-hidden="true" className="text-[color:var(--color-gold-400)]">→</span>
-          </Link>
           <MobileNav />
         </div>
       </div>
