@@ -129,6 +129,17 @@ export default function HighNetWorthPage() {
               family-law side can carry a six-figure tax cost if they&rsquo;re
               papered without a tax accountant in the room.
             </p>
+            <p className="text-[color:var(--color-ink-700)] leading-relaxed mt-3">
+              Expenses run through a corporation may not be treated as
+              income for tax purposes but may still be considered guideline
+              income for child or spousal support purposes. The legal test
+              looks at whether there was a personal or business benefit of
+              the expense, and the onus is on the payor to show that it was
+              a legitimate business expense. If business expenses are deemed
+              personal, there may be a grossing up of guideline income to
+              account for the personal taxes that would otherwise have been
+              paid.
+            </p>
           </section>
 
           <section>
