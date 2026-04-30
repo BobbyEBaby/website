@@ -58,6 +58,17 @@ export default function FeesPage() {
         </ul>
       </section>
 
+      <section className="mt-16 max-w-3xl">
+        <h2 className="font-display text-2xl text-[color:var(--color-forest-900)] mb-4">
+          How do retainers work in family law?
+        </h2>
+        <ul className="space-y-3 text-[color:var(--color-ink-700)]">
+          <Bullet>A typical retainer is $10,000 to complete one step with money leftover.</Bullet>
+          <Bullet>The balance of any retainer funds remaining are returned to you.</Bullet>
+          <Bullet>You may cancel at any time and have your retainer refunded, minus what has been billed to date.</Bullet>
+        </ul>
+      </section>
+
       <div className="mt-16">
         <ButtonLink href="/book" size="lg">
           Book a consultation to get specific numbers
