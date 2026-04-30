@@ -36,7 +36,6 @@ export async function POST(req: Request) {
   const email = str(body.email, 200);
   const phone = str(body.phone, 40);
   const opposingName = str(body.subject, 160); // "subject" field label = "Other side's name"
-  const subjectLine = opposingName || "Website enquiry";
   const message = str(body.message, 5000);
 
   if (!name || !email || !message) {
@@ -73,7 +72,7 @@ export async function POST(req: Request) {
   }
 
   const subjectPrefix = conflictBlock ? "[Website] ⚠️ POSSIBLE CONFLICT" : "[Website]";
-  const emailSubject = `${subjectPrefix} ${subjectLine}`;
+  const emailSubject = `${subjectPrefix} ${name}`;
   const emailBody =
     (conflictBlock ? `${conflictBlock}\n\n----------------------------------------\n\n` : "") +
     `New contact-form message from ${firm.domain}\n\n` +
