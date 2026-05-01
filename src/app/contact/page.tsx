@@ -40,7 +40,7 @@ export default function ContactPage() {
             </a>
           </ContactBlock>
 
-          <ContactBlock label="Office">
+          <ContactBlock label="Vancouver Office">
             <address className="not-italic text-[color:var(--color-ink-900)] leading-relaxed">
               {firm.name}
               <br />
