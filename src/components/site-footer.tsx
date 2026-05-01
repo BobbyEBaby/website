@@ -114,42 +114,6 @@ export function SiteFooter() {
         </div>
       </div>
 
-      {/* Affiliations & recognition row.
-          Sits on the same light forest-50 background as the home page's
-          'How we work together' section so the strip reads as its own
-          section between the dark footer above and the dark copyright
-          row below. Heading switches to gold-600 (the darker gold used
-          elsewhere on light backgrounds) for contrast. */}
-      <div className="bg-[color:var(--color-forest-50)]">
-        <div className="mx-auto max-w-6xl px-5 md:px-8 py-10 flex flex-col items-center">
-          <div className="text-[color:var(--color-gold-600)] text-xs uppercase tracking-[0.18em] mb-5 font-medium">
-            Affiliations &amp; recognition
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <ImageBadgeLink
-              href="https://www.lawsociety.bc.ca/"
-              src="/badges/law%20society.png"
-              alt="Law Society of British Columbia"
-            />
-            <ImageBadgeLink
-              href="https://www.cbabc.org/"
-              src="/badges/canadian-bar.png"
-              alt="Canadian Bar Association — BC Branch"
-            />
-            <ImageBadgeLink
-              href="https://www.tlabc.org/"
-              src="/badges/trial-lawyers-association.png"
-              alt="Trial Lawyers Association of BC"
-            />
-            <ImageBadgeLink
-              href="https://threebestrated.ca/"
-              src="/badges/three%20best%20rated.png"
-              alt="Three Best Rated"
-            />
-          </div>
-        </div>
-      </div>
-
       <div className="border-t border-[color:var(--color-forest-800)]">
         <div className="mx-auto max-w-6xl px-5 md:px-8 py-6 flex flex-col md:flex-row gap-3 md:items-center md:justify-between text-xs text-[color:var(--color-cream-100)]/60">
           <div>
@@ -218,36 +182,3 @@ function SocialIcon({
   );
 }
 
-/**
- * External-affiliation logo badge in the footer.
- *
- * Wraps each badge image in a small cream-coloured card so it reads
- * cleanly against the dark forest footer regardless of whether the
- * source image has a transparent background or its own card. Fixed
- * height keeps the row visually consistent even when source aspect
- * ratios differ.
- */
-function ImageBadgeLink({
-  href,
-  src,
-  alt,
-}: {
-  href: string;
-  src: string;
-  alt: string;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer noopener"
-      className="inline-flex items-center justify-center rounded-md bg-[color:var(--color-cream-50)] px-3 py-2 hover:opacity-90 transition-opacity"
-    >
-      {/* Plain <img>: footer badges are tiny, performance impact of
-          forgoing next/image is negligible, and this avoids needing
-          width/height props for each unknown source aspect ratio. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className="block h-10 w-auto" />
-    </a>
-  );
-}
