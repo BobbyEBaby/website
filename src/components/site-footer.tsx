@@ -143,9 +143,6 @@ export function SiteFooter() {
             <BadgeLink href="https://threebestrated.ca/">
               Three Best Rated
             </BadgeLink>
-            <BadgeLink href="https://www.topchoiceawards.com/">
-              Top Choice Awards
-            </BadgeLink>
           </div>
         </div>
       </div>
