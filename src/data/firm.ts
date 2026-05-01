@@ -17,9 +17,7 @@ export const firm = {
     lng: -123.12465,
   },
   hours: [
-    { day: "Monday – Friday", hours: "9:00 AM – 5:00 PM" },
-    { day: "Saturday", hours: "By appointment" },
-    { day: "Sunday", hours: "By appointment" },
+    { day: "Monday – Sunday", hours: "By appointment" },
   ],
   social: {
     facebook: "",
