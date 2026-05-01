@@ -63,8 +63,8 @@ export function SiteHeader() {
           </div>
           <PrimaryLink href="/mediation">Mediation</PrimaryLink>
           <PrimaryLink href="/fees">Legal Fees</PrimaryLink>
-          <PrimaryLink href="/intake">New Client Intake</PrimaryLink>
-          <PrimaryLink href="/book">Book a Consult</PrimaryLink>
+          <PrimaryLink href="/intake">Intake</PrimaryLink>
+          <PrimaryLink href="/book">Book Consult</PrimaryLink>
         </nav>
 
         <div className="flex items-center gap-3">
