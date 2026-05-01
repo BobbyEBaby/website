@@ -170,7 +170,7 @@ export function MobileNav() {
               <MobileLink href="/mediation">Mediation</MobileLink>
               <MobileLink href="/fees">Legal Fees</MobileLink>
               <MobileLink href="/contact">Contact</MobileLink>
-              <MobileLink href="/book">Book a Consult</MobileLink>
+              <MobileLink href="/intake">New Client Intake</MobileLink>
             </ul>
 
             <div className="mt-8 rounded-xl bg-[color:var(--color-forest-900)] text-[color:var(--color-cream-50)] p-5">
