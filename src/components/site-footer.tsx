@@ -115,16 +115,17 @@ export function SiteFooter() {
       </div>
 
       {/* Affiliations & recognition row.
-          Text-based badges for now — drop logo files into /public/badges/
-          and swap the <span> for <img src="/badges/<file>" alt="..." />
-          inside each <BadgeLink> when assets are ready. The wrapper styles
-          stay the same. */}
-      <div className="border-t border-[color:var(--color-forest-800)]">
-        <div className="mx-auto max-w-6xl px-5 md:px-8 py-8">
-          <div className="text-[color:var(--color-gold-400)] text-xs uppercase tracking-[0.18em] mb-4 font-medium">
+          Sits on the same light forest-50 background as the home page's
+          'How we work together' section so the strip reads as its own
+          section between the dark footer above and the dark copyright
+          row below. Heading switches to gold-600 (the darker gold used
+          elsewhere on light backgrounds) for contrast. */}
+      <div className="bg-[color:var(--color-forest-50)]">
+        <div className="mx-auto max-w-6xl px-5 md:px-8 py-10 flex flex-col items-center">
+          <div className="text-[color:var(--color-gold-600)] text-xs uppercase tracking-[0.18em] mb-5 font-medium">
             Affiliations &amp; recognition
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <ImageBadgeLink
               href="https://www.lawsociety.bc.ca/"
               src="/badges/law%20society.png"
