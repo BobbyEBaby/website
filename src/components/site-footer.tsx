@@ -114,6 +114,42 @@ export function SiteFooter() {
         </div>
       </div>
 
+      {/* Affiliations & recognition row.
+          Text-based badges for now — drop logo files into /public/badges/
+          and swap the <span> for <img src="/badges/<file>" alt="..." />
+          inside each <BadgeLink> when assets are ready. The wrapper styles
+          stay the same. */}
+      <div className="border-t border-[color:var(--color-forest-800)]">
+        <div className="mx-auto max-w-6xl px-5 md:px-8 py-8">
+          <div className="text-[color:var(--color-gold-400)] text-xs uppercase tracking-[0.18em] mb-4 font-medium">
+            Affiliations &amp; recognition
+          </div>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <BadgeLink href="https://www.lawsociety.bc.ca/">
+              Law Society of British Columbia
+            </BadgeLink>
+            <BadgeLink href="https://www.cbabc.org/">
+              CBA — BC Branch
+            </BadgeLink>
+            <BadgeLink href="https://www.tlabc.org/">
+              Trial Lawyers Association of BC
+            </BadgeLink>
+            <BadgeLink href="https://fmc.ca/">
+              Family Mediation Canada
+            </BadgeLink>
+            <BadgeLink href="https://www.mediatebc.com/">
+              BC Mediator Roster
+            </BadgeLink>
+            <BadgeLink href="https://threebestrated.ca/">
+              Three Best Rated
+            </BadgeLink>
+            <BadgeLink href="https://www.topchoiceawards.com/">
+              Top Choice Awards
+            </BadgeLink>
+          </div>
+        </div>
+      </div>
+
       <div className="border-t border-[color:var(--color-forest-800)]">
         <div className="mx-auto max-w-6xl px-5 md:px-8 py-6 flex flex-col md:flex-row gap-3 md:items-center md:justify-between text-xs text-[color:var(--color-cream-100)]/60">
           <div>
@@ -176,6 +212,34 @@ function SocialIcon({
       aria-label={label}
       title={label}
       className="inline-flex items-center justify-center w-9 h-9 rounded-full border border-[color:var(--color-forest-700)] text-[color:var(--color-cream-100)]/80 hover:text-[color:var(--color-gold-400)] hover:border-[color:var(--color-gold-400)] transition-colors"
+    >
+      {children}
+    </a>
+  );
+}
+
+/**
+ * External-affiliation badge in the footer. Pill-shaped, dark forest fill
+ * over the surrounding dark forest background with a subtle border so the
+ * badges read as a coherent row. Hover lifts the border + text to gold.
+ *
+ * Currently text-only; once logo image files are in /public/badges/, swap
+ * the text node for an <img /> with appropriate alt and the wrapper
+ * styling stays identical.
+ */
+function BadgeLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer noopener"
+      className="inline-flex items-center rounded-full border border-[color:var(--color-forest-700)] bg-[color:var(--color-forest-800)]/40 px-3.5 py-1.5 text-xs text-[color:var(--color-cream-100)]/85 hover:text-[color:var(--color-gold-400)] hover:border-[color:var(--color-gold-400)] transition-colors"
     >
       {children}
     </a>
