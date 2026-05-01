@@ -21,8 +21,39 @@ export default function PayPage() {
       </div>
 
       <div className="mt-12 grid gap-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
-        <div className="order-2 md:order-1">
+        <div className="order-2 md:order-1 space-y-8">
           <PayInvoiceForm />
+
+          {/* Fee-avoidance offer. Card payments incur ~2.9% + $0.30 that
+              comes off the firm's side — not the client's invoice total —
+              so this is a soft ask, not a disclosure. Mirrors the more
+              detailed disclosure on /retainer (where the fee actually
+              affects the client's trust balance). */}
+          <div className="rounded-xl border border-[color:var(--color-gold-400)] bg-[color:var(--color-gold-300)]/20 p-6 md:p-7">
+            <div className="text-xs uppercase tracking-[0.18em] text-[color:var(--color-gold-600)] mb-2">
+              Prefer to skip the card fee?
+            </div>
+            <p className="text-sm text-[color:var(--color-ink-700)] leading-relaxed">
+              Stripe charges us roughly{" "}
+              <span className="font-medium text-[color:var(--color-forest-900)]">
+                2.9% + $0.30
+              </span>{" "}
+              per card transaction. If you&rsquo;d like to help the firm
+              avoid that fee, pay by{" "}
+              <span className="font-medium text-[color:var(--color-forest-900)]">
+                Interac e-Transfer
+              </span>{" "}
+              instead — send to your lawyer&rsquo;s email address (listed
+              on their profile) or to{" "}
+              <a
+                href={`mailto:${firm.email}`}
+                className="font-medium text-[color:var(--color-forest-800)] underline decoration-[color:var(--color-forest-300)] underline-offset-2 hover:text-[color:var(--color-forest-900)]"
+              >
+                {firm.email}
+              </a>
+              . The amount you owe is the same either way.
+            </p>
+          </div>
         </div>
 
         <aside className="order-1 md:order-2 space-y-6">

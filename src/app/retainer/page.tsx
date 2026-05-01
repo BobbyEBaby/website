@@ -75,11 +75,20 @@ export default function RetainerPage() {
                 <span className="font-medium text-[color:var(--color-forest-900)]">
                   Want to avoid the fee?
                 </span>{" "}
-                Retainers paid by{" "}
-                <span className="font-medium">e-transfer</span>,{" "}
-                <span className="font-medium">wire</span>, or{" "}
-                <span className="font-medium">cash</span> reach the trust
-                account in full. Call the office for instructions.
+                Pay by{" "}
+                <span className="font-medium">Interac e-Transfer</span>{" "}
+                — send to your lawyer&rsquo;s email address (listed on
+                their profile) or to{" "}
+                <a
+                  href={`mailto:${firm.email}`}
+                  className="font-medium text-[color:var(--color-forest-800)] underline decoration-[color:var(--color-forest-300)] underline-offset-2 hover:text-[color:var(--color-forest-900)]"
+                >
+                  {firm.email}
+                </a>
+                . The full amount reaches our trust account.{" "}
+                <span className="font-medium">Wire transfer</span> and{" "}
+                <span className="font-medium">cash</span> also work — call
+                the office for instructions.
               </p>
             </div>
           </div>
