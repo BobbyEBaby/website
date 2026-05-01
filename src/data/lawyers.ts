@@ -169,7 +169,7 @@ export const lawyers: Lawyer[] = [
     phoneDisplay: "(778) 897-3341",
     photoPrimary: "/lawyers/grewal-dilveen-1.jpg",
     photoSecondary: "/lawyers/grewal-dilveen-2.jpg",
-    consultationRateCad: 150,
+    consultationRateCad: 175,
     consultationMinutes: 30,
     calendlyUrl: "https://calendly.com/grewal-rwelaw",
     displayOrder: 5,
