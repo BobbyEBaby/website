@@ -74,17 +74,6 @@ export function Logo({ className = "", variant = "dark", showWordmark = true }: 
       {showWordmark && (
         <span className="hidden sm:flex flex-col leading-none">
           <span
-            className="text-[0.62rem] uppercase tracking-[0.24em] mb-1"
-            style={{
-              color:
-                variant === "light"
-                  ? "var(--color-gold-400)"
-                  : "var(--color-gold-600)",
-            }}
-          >
-            Est. 2012
-          </span>
-          <span
             className="font-display text-[1.15rem] md:text-[1.35rem] tracking-tight"
             style={{ color: ink }}
           >
@@ -100,6 +89,17 @@ export function Logo({ className = "", variant = "dark", showWordmark = true }: 
             }}
           >
             Vancouver, British Columbia
+          </span>
+          <span
+            className="text-[0.62rem] uppercase tracking-[0.24em] mt-0.5"
+            style={{
+              color:
+                variant === "light"
+                  ? "var(--color-gold-400)"
+                  : "var(--color-gold-600)",
+            }}
+          >
+            Est. 2012
           </span>
         </span>
       )}
