@@ -149,24 +149,11 @@ export default async function LawyerProfilePage({ params }: PageProps) {
             )}
           </dl>
 
-          {/*
-            Booking is the primary CTA, but family-law clients often want to
-            ask a question or check fit before committing to a paid consult.
-            The secondary text link sends them to the contact form instead
-            of dead-ending the page on "Book with X" only.
-          */}
-          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <div className="mt-10 flex flex-wrap gap-3">
             <ButtonLink href={`/book?lawyer=${lawyer.slug}`} size="lg">
               Book with {lawyer.bookingDisplayName ?? lawyer.name.split(" ")[0]}
               <span aria-hidden="true" className="text-[color:var(--color-gold-400)]">→</span>
             </ButtonLink>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--color-forest-800)] hover:text-[color:var(--color-forest-900)]"
-            >
-              Ask a question first
-              <span aria-hidden="true">→</span>
-            </Link>
           </div>
         </div>
       </div>
