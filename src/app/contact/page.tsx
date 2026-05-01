@@ -107,7 +107,7 @@ export default function ContactPage() {
               />
             </a>
             <div className="mt-2 text-xs text-[color:var(--color-ink-500)]">
-              Hours by appointment only.
+              Monday – Sunday by appointment.
             </div>
           </ContactBlock>
 
