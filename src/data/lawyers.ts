@@ -284,9 +284,9 @@ export const lawyers: Lawyer[] = [
   {
     slug: "bionca-chu",
     name: "Bionca Chu",
-    title: "Associate",
+    title: "Articling Student",
     shortBio:
-      "Associate bringing empathy, diligence, and cultural fluency to family-law practice.",
+      "Articling student bringing empathy, diligence, and cultural fluency to family-law practice.",
     bio: [
       "Bionca recently received her Juris Doctor from the University of Ottawa, following a Bachelor of Arts in Anthropology with a Minor in Creative Writing from the University of British Columbia. During law school she worked with Rise Women's Legal Centre and Pro Bono Students Canada.",
       "With a leadership and community engagement background, Bionca brings a unique blend of empathy, diligence, and cultural fluency to her work. She is committed to providing clear, client-focused legal support and values fair and practical solutions. Her long-term goal is to build a career in family law that reflects her dedication to empowerment, equity, and care.",
