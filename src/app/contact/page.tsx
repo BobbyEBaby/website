@@ -102,7 +102,7 @@ export default function ContactPage() {
               />
             </a>
             <div className="mt-2 text-xs text-[color:var(--color-ink-500)]">
-              Monday – Sunday by appointment.
+              Click map to find RWE Family Law New Westminster office on Google Maps.
             </div>
           </ContactBlock>
 
