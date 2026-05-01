@@ -76,6 +76,41 @@ export default function ContactPage() {
             </div>
           </ContactBlock>
 
+          {/* Second-office block. Address is hard-coded here rather than
+              extending firm.address into a multi-office shape because
+              there's no other place in the app that needs the New
+              Westminster details — phone, email, and the bulk of contact
+              metadata are still firm-wide. Promote to data/firm.ts if a
+              third office shows up. */}
+          <ContactBlock label="New Westminster Office">
+            <address className="not-italic text-[color:var(--color-ink-900)] leading-relaxed">
+              RWE Family Law
+              <br />
+              604 Columbia St Unit 400
+              <br />
+              New Westminster, BC V3M 1A5
+            </address>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=RWE+Family+Law+New+Westminster"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="mt-4 block overflow-hidden rounded-xl border border-[color:var(--color-forest-100)] group"
+              aria-label="Find the New Westminster office on Google Maps"
+            >
+              <iframe
+                title="RWE Family Law New Westminster office location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3475.8302687152313!2d-122.9079455!3d49.202974399999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5485d86d94cecc5b%3A0x15030d17672c83cb!2sRWE%20Family%20Law!5e1!3m2!1sen!2sca!4v1777654132121!5m2!1sen!2sca"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+                className="block w-full h-64 border-0 pointer-events-none transition duration-500 [filter:grayscale(1)_contrast(1.05)] group-hover:[filter:grayscale(0)_contrast(1)]"
+              />
+            </a>
+            <div className="mt-2 text-xs text-[color:var(--color-ink-500)]">
+              Hours by appointment only.
+            </div>
+          </ContactBlock>
+
           <ContactBlock label="Hours">
             <ul className="space-y-1 text-[color:var(--color-ink-900)]">
               {firm.hours.map((h) => (
