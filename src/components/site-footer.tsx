@@ -88,13 +88,29 @@ export function SiteFooter() {
         <div>
           <FooterHeading>Reach us</FooterHeading>
           <address className="not-italic text-sm text-[color:var(--color-cream-100)]/75 leading-relaxed">
+            <div className="text-[color:var(--color-gold-400)] text-[0.65rem] uppercase tracking-[0.18em] mb-1">
+              Vancouver Office
+            </div>
             <div>{firm.name}</div>
             <div>{firm.address.line1}</div>
             <div>
               {firm.address.city}, {firm.address.region}{" "}
               {firm.address.postal}
             </div>
-            <div className="mt-3">
+
+            {/* New Westminster office. Hard-coded here for the same reason
+                as the contact page: phone/email/etc. are firm-wide and
+                there's no other place in the app that needs these
+                details. Promote to data/firm.ts if a third office shows
+                up. */}
+            <div className="text-[color:var(--color-gold-400)] text-[0.65rem] uppercase tracking-[0.18em] mt-4 mb-1">
+              New Westminster Office
+            </div>
+            <div>RWE Family Law</div>
+            <div>604 Columbia St Unit 400</div>
+            <div>New Westminster, BC V3M 1A5</div>
+
+            <div className="mt-4">
               <a
                 href={`tel:${firm.phone}`}
                 className="hover:text-[color:var(--color-gold-400)]"
