@@ -121,6 +121,13 @@ export default function RetainerPage() {
                 See the note below the form. To avoid fees, ask about
                 e-transfer, wire, or cash.
               </li>
+              <li>
+                <span className="font-medium text-[color:var(--color-forest-900)]">
+                  Paying for someone else?
+                </span>{" "}
+                Refunds will be made to our client only. Contact us to set
+                up a third-party retainer agreement.
+              </li>
             </ul>
           </div>
 
