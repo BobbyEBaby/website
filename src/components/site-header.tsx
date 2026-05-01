@@ -39,15 +39,22 @@ export function SiteHeader() {
           </div>
           <PrimaryLink href="/mediation">Mediation</PrimaryLink>
           <PrimaryLink href="/fees">Legal Fees</PrimaryLink>
-          <PrimaryLink href="/contact">Contact</PrimaryLink>
         </nav>
 
         <div className="flex items-center gap-3">
+          {/*
+            Primary nav CTA. Family-law clients are emotional and cautious;
+            "Contact" is a softer first step than committing to a paid
+            consultation cold. Booking is still surfaced everywhere else
+            (home hero, lawyer profiles, mediation, footer), so demoting it
+            from the nav doesn't bury the funnel — it just gives clients an
+            easier way in.
+          */}
           <Link
-            href="/book"
+            href="/contact"
             className="hidden md:inline-flex items-center gap-2 rounded-full bg-[color:var(--color-forest-800)] text-[color:var(--color-cream-50)] text-sm font-medium px-4 md:px-5 py-2 md:py-2.5 transition-colors hover:bg-[color:var(--color-forest-900)]"
           >
-            Book consultation
+            Contact
             <span aria-hidden="true" className="text-[color:var(--color-gold-400)]">→</span>
           </Link>
           <MobileNav />
