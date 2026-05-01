@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { lawyers } from "@/data/lawyers";
 import { ButtonLink, Container, SectionHeading } from "@/components/ui";
 
@@ -74,6 +75,34 @@ export default function FeesPage() {
           Book a consultation to get specific numbers
           <span aria-hidden="true" className="text-[color:var(--color-gold-400)]">→</span>
         </ButtonLink>
+      </div>
+
+      {/* Existing-client shortcuts. Pay an invoice + deposit a retainer
+          are linked here too because someone who's been retained may
+          land on /fees looking for the right URL to settle their bill
+          or top up trust. Kept as a subordinate text-link cluster below
+          the primary 'Book a consultation' CTA so the funnel for new
+          clients stays unmuddied. */}
+      <div className="mt-12 max-w-3xl pt-6 border-t border-[color:var(--color-forest-100)]">
+        <div className="text-xs uppercase tracking-[0.16em] text-[color:var(--color-gold-600)] mb-3">
+          For existing clients
+        </div>
+        <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm">
+          <Link
+            href="/pay"
+            className="inline-flex items-center gap-1.5 font-medium text-[color:var(--color-forest-800)] hover:text-[color:var(--color-forest-900)]"
+          >
+            Pay an invoice
+            <span aria-hidden="true">→</span>
+          </Link>
+          <Link
+            href="/retainer"
+            className="inline-flex items-center gap-1.5 font-medium text-[color:var(--color-forest-800)] hover:text-[color:var(--color-forest-900)]"
+          >
+            Deposit a retainer
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
       </div>
     </Container>
   );
