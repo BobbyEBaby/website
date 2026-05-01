@@ -42,17 +42,38 @@ export default function ContactPage() {
               {firm.phoneDisplay}
             </a>
 
-            {/* Direct lines list. Each row is a full-width tappable area
-                with ~44px+ vertical hit-target so it's easy to dial on
-                mobile without zooming or fat-fingering. -mx-2/px-2 lets
-                the hover/tap area extend a touch beyond the text without
-                visually offsetting the column. */}
+            {/* Direct lines list. Collapsed by default so the section
+                stays compact for visitors who only need the main line.
+                Uses native <details>/<summary> for the disclosure so it
+                works without client-side JS and stays accessible (proper
+                aria-expanded handled by the browser, full keyboard
+                support out of the box). Each phone row is a full-width
+                tappable area with ~44px+ vertical hit-target so dialing
+                stays easy on mobile. */}
             {directLineLawyers.length > 0 && (
-              <>
-                <div className="mt-7 text-xs uppercase tracking-[0.14em] text-[color:var(--color-ink-500)] mb-1">
-                  Direct lines
-                </div>
-                <ul className="-mx-2 divide-y divide-[color:var(--color-forest-100)]">
+              <details className="mt-6 group">
+                <summary
+                  className="flex items-center gap-2 cursor-pointer list-none py-1.5 [&::-webkit-details-marker]:hidden"
+                >
+                  <span className="text-xs uppercase tracking-[0.14em] text-[color:var(--color-ink-500)] group-hover:text-[color:var(--color-forest-700)] transition-colors">
+                    Direct lines
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-[color:var(--color-ink-500)] group-open:rotate-180 transition-transform duration-200"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </summary>
+                <ul className="mt-2 -mx-2 divide-y divide-[color:var(--color-forest-100)]">
                   {directLineLawyers.map((l) => (
                     <li key={l.slug}>
                       <a
@@ -69,7 +90,7 @@ export default function ContactPage() {
                     </li>
                   ))}
                 </ul>
-              </>
+              </details>
             )}
           </ContactBlock>
 
