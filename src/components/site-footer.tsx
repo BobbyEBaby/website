@@ -124,25 +124,27 @@ export function SiteFooter() {
           <div className="text-[color:var(--color-gold-400)] text-xs uppercase tracking-[0.18em] mb-4 font-medium">
             Affiliations &amp; recognition
           </div>
-          <div className="flex flex-wrap items-center gap-2.5">
-            <BadgeLink href="https://www.lawsociety.bc.ca/">
-              Law Society of British Columbia
-            </BadgeLink>
-            <BadgeLink href="https://www.cbabc.org/">
-              CBA — BC Branch
-            </BadgeLink>
-            <BadgeLink href="https://www.tlabc.org/">
-              Trial Lawyers Association of BC
-            </BadgeLink>
-            <BadgeLink href="https://fmc.ca/">
-              Family Mediation Canada
-            </BadgeLink>
-            <BadgeLink href="https://www.mediatebc.com/">
-              BC Mediator Roster
-            </BadgeLink>
-            <BadgeLink href="https://threebestrated.ca/">
-              Three Best Rated
-            </BadgeLink>
+          <div className="flex flex-wrap items-center gap-3">
+            <ImageBadgeLink
+              href="https://www.lawsociety.bc.ca/"
+              src="/badges/law%20society.png"
+              alt="Law Society of British Columbia"
+            />
+            <ImageBadgeLink
+              href="https://www.cbabc.org/"
+              src="/badges/canadian-bar.png"
+              alt="Canadian Bar Association — BC Branch"
+            />
+            <ImageBadgeLink
+              href="https://www.tlabc.org/"
+              src="/badges/trial-lawyers-association.png"
+              alt="Trial Lawyers Association of BC"
+            />
+            <ImageBadgeLink
+              href="https://threebestrated.ca/"
+              src="/badges/three%20best%20rated.png"
+              alt="Three Best Rated"
+            />
           </div>
         </div>
       </div>
@@ -216,29 +218,35 @@ function SocialIcon({
 }
 
 /**
- * External-affiliation badge in the footer. Pill-shaped, dark forest fill
- * over the surrounding dark forest background with a subtle border so the
- * badges read as a coherent row. Hover lifts the border + text to gold.
+ * External-affiliation logo badge in the footer.
  *
- * Currently text-only; once logo image files are in /public/badges/, swap
- * the text node for an <img /> with appropriate alt and the wrapper
- * styling stays identical.
+ * Wraps each badge image in a small cream-coloured card so it reads
+ * cleanly against the dark forest footer regardless of whether the
+ * source image has a transparent background or its own card. Fixed
+ * height keeps the row visually consistent even when source aspect
+ * ratios differ.
  */
-function BadgeLink({
+function ImageBadgeLink({
   href,
-  children,
+  src,
+  alt,
 }: {
   href: string;
-  children: React.ReactNode;
+  src: string;
+  alt: string;
 }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noreferrer noopener"
-      className="inline-flex items-center rounded-full border border-[color:var(--color-forest-700)] bg-[color:var(--color-forest-800)]/40 px-3.5 py-1.5 text-xs text-[color:var(--color-cream-100)]/85 hover:text-[color:var(--color-gold-400)] hover:border-[color:var(--color-gold-400)] transition-colors"
+      className="inline-flex items-center justify-center rounded-md bg-[color:var(--color-cream-50)] px-3 py-2 hover:opacity-90 transition-opacity"
     >
-      {children}
+      {/* Plain <img>: footer badges are tiny, performance impact of
+          forgoing next/image is negligible, and this avoids needing
+          width/height props for each unknown source aspect ratio. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt={alt} className="block h-10 w-auto" />
     </a>
   );
 }
