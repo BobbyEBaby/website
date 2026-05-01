@@ -58,16 +58,11 @@ export default function ContactPage() {
               aria-label="Find RWE Family Law on Google Maps"
             >
               <iframe
-                title="RWE Family Law office location"
-                src={`https://www.openstreetmap.org/export/embed.html?bbox=${
-                  firm.address.lng - 0.0041
-                }%2C${firm.address.lat - 0.0027}%2C${
-                  firm.address.lng + 0.0041
-                }%2C${firm.address.lat + 0.0027}&layer=mapnik&marker=${
-                  firm.address.lat
-                }%2C${firm.address.lng}`}
+                title="RWE Family Law Vancouver office location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3470.424040530406!2d-123.1246517!3d49.2798452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x548673d512fba423%3A0xfb6d98bdf151dd19!2sRWE%20Family%20Law!5e1!3m2!1sen!2sca!4v1777654305214!5m2!1sen!2sca"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
                 className="block w-full h-64 border-0 pointer-events-none transition duration-500 [filter:grayscale(1)_contrast(1.05)] group-hover:[filter:grayscale(0)_contrast(1)]"
               />
             </a>
