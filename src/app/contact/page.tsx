@@ -56,7 +56,7 @@ export default function ContactPage() {
                   className="flex items-center gap-2 cursor-pointer list-none py-1.5 [&::-webkit-details-marker]:hidden"
                 >
                   <span className="text-xs uppercase tracking-[0.14em] text-[color:var(--color-ink-500)] group-hover:text-[color:var(--color-forest-700)] transition-colors">
-                    Direct lines
+                    Lawyer Direct Numbers
                   </span>
                   <svg
                     aria-hidden="true"
