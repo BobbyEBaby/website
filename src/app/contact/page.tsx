@@ -69,37 +69,6 @@ export default function ContactPage() {
             <div className="mt-2 text-xs text-[color:var(--color-ink-500)]">
               Click map to find RWE Family Law Vancouver office on Google Maps.
             </div>
-
-            {/* Vancouver-specific hours. Hard-coded inline rather than
-                pulled from firm.hours because each office has its own
-                schedule now (Vancouver = staffed weekday office hours;
-                New Westminster = appointment-only). Promote to a
-                per-office data structure if a third office shows up. */}
-            <div className="mt-5">
-              <div className="text-xs uppercase tracking-[0.16em] text-[color:var(--color-gold-600)] mb-2">
-                Hours
-              </div>
-              <ul className="space-y-1 text-[color:var(--color-ink-900)]">
-                <li className="flex justify-between max-w-xs">
-                  <span className="text-[color:var(--color-ink-700)]">
-                    Monday – Friday
-                  </span>
-                  <span>9:00 AM – 5:00 PM</span>
-                </li>
-                <li className="flex justify-between max-w-xs">
-                  <span className="text-[color:var(--color-ink-700)]">
-                    Saturday
-                  </span>
-                  <span>By appointment</span>
-                </li>
-                <li className="flex justify-between max-w-xs">
-                  <span className="text-[color:var(--color-ink-700)]">
-                    Sunday
-                  </span>
-                  <span>By appointment</span>
-                </li>
-              </ul>
-            </div>
           </ContactBlock>
 
           {/* Second-office block. Address is hard-coded here rather than
