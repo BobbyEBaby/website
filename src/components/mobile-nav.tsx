@@ -10,6 +10,7 @@ import { practiceAreas } from "@/data/practice-areas";
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [practiceAreasOpen, setPracticeAreasOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => setMounted(true), []);
@@ -109,24 +110,51 @@ export function MobileNav() {
             <ul className="divide-y divide-[color:var(--color-forest-100)]">
               <MobileLink href="/lawyers">Lawyer Profiles</MobileLink>
               <li className="py-4">
-                <Link
-                  href="/practice-areas"
-                  className="font-display text-2xl text-[color:var(--color-forest-900)] hover:text-[color:var(--color-forest-700)]"
-                >
-                  Practice Areas
-                </Link>
-                <ul className="mt-3 pl-1 space-y-1">
-                  {practiceAreas.map((p) => (
-                    <li key={p.slug}>
-                      <Link
-                        href={p.customHref ?? `/practice-areas/${p.slug}`}
-                        className="block py-1.5 text-sm text-[color:var(--color-ink-700)] hover:text-[color:var(--color-forest-800)]"
-                      >
-                        {p.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                <div className="flex items-center justify-between gap-2">
+                  <Link
+                    href="/practice-areas"
+                    className="font-display text-2xl text-[color:var(--color-forest-900)] hover:text-[color:var(--color-forest-700)]"
+                  >
+                    Practice Areas
+                  </Link>
+                  <button
+                    type="button"
+                    aria-label={practiceAreasOpen ? "Collapse practice areas" : "Expand practice areas"}
+                    aria-expanded={practiceAreasOpen}
+                    aria-controls="mobile-nav-practice-areas"
+                    onClick={() => setPracticeAreasOpen((v) => !v)}
+                    className="inline-flex items-center justify-center w-11 h-11 -mr-2 rounded-full text-[color:var(--color-forest-900)] hover:bg-[color:var(--color-forest-50)]"
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                      className={`transition-transform duration-200 ${practiceAreasOpen ? "rotate-180" : ""}`}
+                    >
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </button>
+                </div>
+                {practiceAreasOpen && (
+                  <ul id="mobile-nav-practice-areas" className="mt-3 pl-1 space-y-1">
+                    {practiceAreas.map((p) => (
+                      <li key={p.slug}>
+                        <Link
+                          href={p.customHref ?? `/practice-areas/${p.slug}`}
+                          className="block py-1.5 text-sm text-[color:var(--color-ink-700)] hover:text-[color:var(--color-forest-800)]"
+                        >
+                          {p.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
               <MobileLink href="/mediation">Mediation</MobileLink>
               <MobileLink href="/fees">Legal Fees</MobileLink>
