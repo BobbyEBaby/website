@@ -12,6 +12,42 @@ export const metadata: Metadata = {
     "A Vancouver family law firm focused on divorce, parenting, property division, mediation and child protection. Private consultations with experienced family lawyers.",
 };
 
+// --- Lawyer-grid orphan centering ---------------------------------------
+//
+// On lg+ the lawyer grid is 4 columns. With N lawyers, the bottom row
+// has N % 4 orphans. Pushing the first orphan right by
+// floor((4 - orphans) / 2) columns centers the orphan row visually.
+//
+//   8 lawyers   → 0 orphans  → no offset (full grid)
+//   9 lawyers   → 1 orphan   → lg:col-start-2 (orphan in col 2)
+//   10 lawyers  → 2 orphans  → lg:col-start-2 (orphans in cols 2-3)
+//   11 lawyers  → 3 orphans  → no offset (3 of 4 can't truly centre;
+//                              default left-bias of cols 1-3 is fine)
+//   12 lawyers  → 0 orphans  → no offset (full row)
+//
+// On mobile / tablet (2 columns) we don't bother — orphans there read
+// fine without intervention.
+const HOME_LAWYER_LG_COLS = 4;
+const homeLawyerOrphans = lawyers.length % HOME_LAWYER_LG_COLS;
+const homeLawyerFirstOrphanIdx =
+  homeLawyerOrphans > 0 ? lawyers.length - homeLawyerOrphans : -1;
+const homeLawyerOrphanStartCol =
+  homeLawyerOrphans > 0
+    ? Math.floor((HOME_LAWYER_LG_COLS - homeLawyerOrphans) / 2) + 1
+    : 1;
+// Tailwind's JIT only picks up class names that appear as literal
+// strings somewhere in the source; an interpolation like
+// `lg:col-start-${n}` would get purged. Branch on the computed value
+// so each possible class name is present as a literal.
+const homeLawyerOrphanClass =
+  homeLawyerOrphanStartCol === 2
+    ? "lg:col-start-2"
+    : homeLawyerOrphanStartCol === 3
+    ? "lg:col-start-3"
+    : homeLawyerOrphanStartCol === 4
+    ? "lg:col-start-4"
+    : "";
+
 export default function HomePage() {
   return (
     <>
@@ -107,7 +143,13 @@ export default function HomePage() {
 
           <div className="mt-14 grid grid-cols-2 gap-5 sm:gap-7 lg:grid-cols-4">
             {lawyers.map((lawyer, idx) => (
-              <Reveal key={lawyer.slug} delay={idx * 90}>
+              <Reveal
+                key={lawyer.slug}
+                delay={idx * 90}
+                className={
+                  idx === homeLawyerFirstOrphanIdx ? homeLawyerOrphanClass : ""
+                }
+              >
                 <Link
                   href={`/lawyers/${lawyer.slug}`}
                   className="group flex flex-col"
