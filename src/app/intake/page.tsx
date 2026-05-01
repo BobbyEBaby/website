@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { firm } from "@/data/firm";
 import { Container, SectionHeading } from "@/components/ui";
 import { IntakeForm } from "@/components/intake-form";
@@ -78,6 +79,33 @@ export default async function IntakePage({
                 software the same way any client matter is tracked.
               </li>
             </ul>
+          </div>
+
+          {/* Retainer deposit CTA. For clients who've already had a
+              consultation and signed a retainer agreement, this is the
+              shortcut to the trust-deposit flow without hunting through
+              the footer. The "Not a retainer" line in the privacy notice
+              above pairs with this — the form is the start, the retainer
+              page is the end. */}
+          <div className="mt-6 rounded-xl bg-[color:var(--color-forest-900)] text-[color:var(--color-cream-50)] p-6 md:p-7">
+            <div className="text-xs uppercase tracking-[0.18em] text-[color:var(--color-gold-400)] mb-2">
+              Already signed a retainer agreement?
+            </div>
+            <h3 className="font-display text-xl text-[color:var(--color-cream-50)]">
+              Deposit a retainer.
+            </h3>
+            <p className="mt-2 text-sm text-[color:var(--color-cream-100)]/85 leading-relaxed">
+              Once we&rsquo;ve met and you&rsquo;ve signed a retainer
+              agreement, you can deposit funds online by card. Money goes
+              directly into our trust account.
+            </p>
+            <Link
+              href="/retainer"
+              className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[color:var(--color-gold-400)] hover:text-[color:var(--color-gold-300)]"
+            >
+              Deposit a retainer
+              <span aria-hidden="true">→</span>
+            </Link>
           </div>
         </div>
 
