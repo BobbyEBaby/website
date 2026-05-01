@@ -67,7 +67,7 @@ export default function ContactPage() {
               />
             </a>
             <div className="mt-2 text-xs text-[color:var(--color-ink-500)]">
-              Click map to find RWE Family Law on Google Maps.
+              Click map to find RWE Family Law Vancouver office on Google Maps.
             </div>
           </ContactBlock>
 
