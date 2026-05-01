@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
 import { firm } from "@/data/firm";
+import { lawyers } from "@/data/lawyers";
 import { ButtonLink, Container, SectionHeading } from "@/components/ui";
 import { ContactForm } from "@/components/contact-form";
+
+// Lawyers with a direct line listed, in firm displayOrder. Filtering
+// here means the contact-page direct-lines list stays in sync with the
+// canonical lawyer data — adding or removing a phoneDisplay on a
+// lawyer record automatically updates this page.
+const directLineLawyers = [...lawyers]
+  .filter((l) => l.phoneDisplay)
+  .sort((a, b) => a.displayOrder - b.displayOrder);
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -23,12 +32,45 @@ export default function ContactPage() {
       <div className="mt-12 grid gap-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
         <div className="space-y-8 order-2 md:order-1">
           <ContactBlock label="By phone">
+            <div className="text-xs uppercase tracking-[0.14em] text-[color:var(--color-ink-500)] mb-1.5">
+              Main office line
+            </div>
             <a
               href={`tel:${firm.phone}`}
-              className="text-xl text-[color:var(--color-forest-900)] hover:text-[color:var(--color-forest-700)]"
+              className="inline-block text-xl text-[color:var(--color-forest-900)] hover:text-[color:var(--color-forest-700)] py-1"
             >
               {firm.phoneDisplay}
             </a>
+
+            {/* Direct lines list. Each row is a full-width tappable area
+                with ~44px+ vertical hit-target so it's easy to dial on
+                mobile without zooming or fat-fingering. -mx-2/px-2 lets
+                the hover/tap area extend a touch beyond the text without
+                visually offsetting the column. */}
+            {directLineLawyers.length > 0 && (
+              <>
+                <div className="mt-7 text-xs uppercase tracking-[0.14em] text-[color:var(--color-ink-500)] mb-1">
+                  Direct lines
+                </div>
+                <ul className="-mx-2 divide-y divide-[color:var(--color-forest-100)]">
+                  {directLineLawyers.map((l) => (
+                    <li key={l.slug}>
+                      <a
+                        href={`tel:+1${l.phoneDisplay!.replace(/\D/g, "")}`}
+                        className="flex items-center justify-between gap-4 px-2 py-3.5 rounded-md hover:bg-[color:var(--color-forest-50)] transition-colors"
+                      >
+                        <span className="text-sm text-[color:var(--color-ink-900)]">
+                          {l.name}
+                        </span>
+                        <span className="text-sm text-[color:var(--color-forest-800)] tabular-nums whitespace-nowrap">
+                          {l.phoneDisplay}
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </ContactBlock>
 
           <ContactBlock label="By email">
