@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { practiceAreas } from "@/data/practice-areas";
+import { lawyers } from "@/data/lawyers";
 import { Logo } from "@/components/logo";
 import { MobileNav } from "@/components/mobile-nav";
+
+// Pre-sort once at module load. Lawyer data is keyed by displayOrder so
+// the dropdown reflects firm-defined seniority/billing order rather than
+// alphabetical or whatever the array happens to be in.
+const orderedLawyers = [...lawyers].sort(
+  (a, b) => a.displayOrder - b.displayOrder
+);
 
 export function SiteHeader() {
   return (
@@ -19,7 +27,23 @@ export function SiteHeader() {
           className="hidden md:flex items-center gap-7 text-sm text-[color:var(--color-ink-700)]"
           aria-label="Primary"
         >
-          <PrimaryLink href="/lawyers">Lawyer Profiles</PrimaryLink>
+          <div className="relative group">
+            <PrimaryLink href="/lawyers">Lawyer Profiles</PrimaryLink>
+            <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity duration-150 absolute left-1/2 -translate-x-1/2 top-full pt-3">
+              <ul className="min-w-[17rem] rounded-lg border border-[color:var(--color-forest-100)] bg-[color:var(--color-cream-50)] shadow-[0_18px_50px_-18px_rgba(18,42,32,0.35)] py-2">
+                {orderedLawyers.map((l) => (
+                  <li key={l.slug}>
+                    <Link
+                      href={`/lawyers/${l.slug}`}
+                      className="block px-4 py-2 text-sm hover:bg-[color:var(--color-forest-50)] hover:text-[color:var(--color-forest-800)]"
+                    >
+                      {l.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
           <div className="relative group">
             <PrimaryLink href="/practice-areas">Practice Areas</PrimaryLink>
             <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity duration-150 absolute left-1/2 -translate-x-1/2 top-full pt-3">
