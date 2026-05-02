@@ -63,7 +63,44 @@ export function SiteHeader() {
           </div>
           <PrimaryLink href="/mediation">Mediation</PrimaryLink>
           <PrimaryLink href="/fees">Legal Fees</PrimaryLink>
-          <PrimaryLink href="/intake">New Client Intake</PrimaryLink>
+          {/* 'For Clients' rolls together the three flows that existing
+              clients (or new clients about to be retained) actually use:
+              intake form, paying an invoice, and depositing a retainer.
+              Parent link defaults to /intake — the most common client
+              entry — so a click on the label still lands somewhere
+              useful even if the dropdown doesn't open (e.g. tapping the
+              text on a touch device that didn't trigger hover). */}
+          <div className="relative group">
+            <PrimaryLink href="/intake">For Clients</PrimaryLink>
+            <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity duration-150 absolute left-1/2 -translate-x-1/2 top-full pt-3">
+              <ul className="min-w-[14rem] rounded-lg border border-[color:var(--color-forest-100)] bg-[color:var(--color-cream-50)] shadow-[0_18px_50px_-18px_rgba(18,42,32,0.35)] py-2">
+                <li>
+                  <Link
+                    href="/intake"
+                    className="block px-4 py-2 text-sm hover:bg-[color:var(--color-forest-50)] hover:text-[color:var(--color-forest-800)]"
+                  >
+                    New Client Intake
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/pay"
+                    className="block px-4 py-2 text-sm hover:bg-[color:var(--color-forest-50)] hover:text-[color:var(--color-forest-800)]"
+                  >
+                    Pay an Invoice
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/retainer"
+                    className="block px-4 py-2 text-sm hover:bg-[color:var(--color-forest-50)] hover:text-[color:var(--color-forest-800)]"
+                  >
+                    Deposit a Retainer
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
         </nav>
 
         <div className="flex items-center gap-3">

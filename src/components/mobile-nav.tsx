@@ -170,7 +170,38 @@ export function MobileNav() {
               <MobileLink href="/mediation">Mediation</MobileLink>
               <MobileLink href="/fees">Legal Fees</MobileLink>
               <MobileLink href="/contact">Contact</MobileLink>
-              <MobileLink href="/intake">New Client Intake</MobileLink>
+              <DisclosureSection
+                sectionKey="for-clients"
+                href="/intake"
+                label="For Clients"
+                expanded={expandedSections.has("for-clients")}
+                onToggle={() => toggleSection("for-clients")}
+              >
+                <li>
+                  <Link
+                    href="/intake"
+                    className="block py-1.5 text-sm text-[color:var(--color-ink-700)] hover:text-[color:var(--color-forest-800)]"
+                  >
+                    New Client Intake
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/pay"
+                    className="block py-1.5 text-sm text-[color:var(--color-ink-700)] hover:text-[color:var(--color-forest-800)]"
+                  >
+                    Pay an Invoice
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/retainer"
+                    className="block py-1.5 text-sm text-[color:var(--color-ink-700)] hover:text-[color:var(--color-forest-800)]"
+                  >
+                    Deposit a Retainer
+                  </Link>
+                </li>
+              </DisclosureSection>
               <MobileLink href="/book">Book Consult</MobileLink>
             </ul>
 
