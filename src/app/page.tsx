@@ -128,7 +128,7 @@ export default function HomePage() {
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <SectionHeading
                 eyebrow="The team"
-                title={<>Lawyers who answer their phones.</>}
+                title={<>Lawyers you can talk to.</>}
                 lead="A team of ten family lawyers — each of whom takes the time to understand your matter before making a plan."
               />
               <Link
