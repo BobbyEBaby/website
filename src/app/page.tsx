@@ -82,12 +82,7 @@ export default function HomePage() {
         </svg>
 
         <Container className="relative pt-20 md:pt-32 pb-24 md:pb-32">
-          {/* Asymmetric width hierarchy: the headline gets the wider
-              max-w-4xl frame so it fills more of the hero, while the
-              eyebrow + lead paragraph keep their narrower constraints
-              for readability. Editorial pattern — wide title, comfortable
-              body column. */}
-          <div className="max-w-4xl">
+          <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-7 text-[color:var(--color-gold-600)] text-xs uppercase tracking-[0.22em] font-medium hero-fade">
               <span className="inline-block w-10 h-px bg-[color:var(--color-gold-500)] hero-rule" aria-hidden="true" />
               <span>Family law &amp; mediation — Vancouver, BC</span>
